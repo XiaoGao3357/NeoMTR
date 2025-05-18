@@ -31,11 +31,8 @@ public class ArrivalDestinationComponent extends TextComponent {
         final Route route = ClientData.DATA_CACHE.routeIdMap.get(arrival.routeId);
         if(route == null) return;
 
-        final String destination = ClientData.DATA_CACHE.getFormattedRouteDestination(route, arrival.currentStationIndex, "", MultipartName.Usage.PIDS_DEST);
+        final String destinationString = getDestinationString(arrival);
 
-        String routeNumber = getRouteNumber(route);
-        String routeNoStr = routeNumber.isEmpty() ? "" : routeNumber + " ";
-        String destinationString = cycleString(routeNoStr) + cycleString(destination);
         if(route.circularState == Route.CircularState.CLOCKWISE) {
 //            destinationString = (isCjk(destinationString, false) ? TranslationProvider.GUI_MTR_CLOCKWISE_VIA_CJK : TranslationProvider.GUI_MTR_CLOCKWISE_VIA).getString(destinationString);
         } else if(route.circularState == Route.CircularState.ANTICLOCKWISE) {
@@ -43,6 +40,17 @@ public class ArrivalDestinationComponent extends TextComponent {
         }
 
         drawText(poseStack, bufferSource, destinationString);
+    }
+
+    public String getDestinationString(ScheduleEntry arrival) {
+        final Route route = ClientData.DATA_CACHE.routeIdMap.get(arrival.routeId);
+        if(route == null) return "";
+
+        final String destination = ClientData.DATA_CACHE.getFormattedRouteDestination(route, arrival.currentStationIndex, "", MultipartName.Usage.PIDS_DEST);
+
+        String routeNumber = getRouteNumber(route);
+        String routeNoStr = routeNumber.isEmpty() ? "" : routeNumber + " ";
+        return cycleString(routeNoStr) + cycleString(destination);
     }
 
     private static String getRouteNumber(Route route) {
