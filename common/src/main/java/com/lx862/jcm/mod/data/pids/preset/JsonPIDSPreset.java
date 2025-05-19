@@ -188,7 +188,7 @@ public class JsonPIDSPreset extends PIDSPresetBase {
 
     @Override
     public int getTextColor() {
-        return 0xFF000000 | textColor;
+        return RenderHelper.MAX_ALPHA | textColor;
     }
 
     @Override

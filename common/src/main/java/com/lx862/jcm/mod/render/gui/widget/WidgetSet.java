@@ -27,6 +27,10 @@ public class WidgetSet extends AbstractWidget implements WidgetWithChildren, Ren
         this(maxWidgetHeight, 10);
     }
 
+    /**
+     * Set the position and size of the widget and reposition all added widget.
+     * Make sure to call this after all widget has been added.
+     */
     public void setXYSize(int x, int y, int width, int height) {
         setPosition(x, y);
         setSize(width, height);

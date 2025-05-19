@@ -5,7 +5,7 @@ import com.lx862.jcm.mod.data.pids.PIDSManager;
 import com.lx862.jcm.mod.data.pids.preset.PIDSPresetBase;
 import com.lx862.jcm.mod.render.gui.GuiHelper;
 import com.lx862.jcm.mod.render.RenderHelper;
-import com.lx862.jcm.mod.render.gui.screen.base.TitledScreenJCM;
+import com.lx862.jcm.mod.render.gui.screen.base.TitledScreen;
 import com.lx862.jcm.mod.render.gui.widget.ContentItem;
 import com.lx862.jcm.mod.render.gui.widget.ListViewWidget;
 import com.lx862.jcm.mod.util.TextCategory;
@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
-public class PIDSPresetScreen extends TitledScreenJCM implements RenderHelper, GuiHelper {
+public class PIDSPresetScreen extends TitledScreen implements RenderHelper, GuiHelper {
     private static final ResourceLocation PIDS_PREVIEW_BASE = ResourceLocation.parse("jsblock:textures/gui/pids_preview.png");
     private final WidgetBetterTextField searchBox;
     private final ListViewWidget listViewWidget;

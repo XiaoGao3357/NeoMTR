@@ -1,10 +1,13 @@
 package com.lx862.jcm.mod.block;
 
 import com.lx862.jcm.mod.block.base.WallAttachedBlock;
+import com.lx862.jcm.mod.block.entity.OperatorButtonBlockEntity;
 import com.lx862.jcm.mod.data.BlockProperties;
 import com.lx862.jcm.mod.util.TextCategory;
 import com.lx862.jcm.mod.util.TextUtil;
 import mtr.block.IBlock;
+import mtr.mappings.BlockEntityMapper;
+import mtr.mappings.EntityBlockMapper;
 import mtr.registry.Items;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,16 +19,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class OperatorButtonBlock extends WallAttachedBlock {
+public class OperatorButtonBlock extends WallAttachedBlock implements EntityBlock {
     private final int poweredDuration;
     public static final BooleanProperty POWERED = BlockProperties.POWERED;
 
@@ -87,5 +93,10 @@ public class OperatorButtonBlock extends WallAttachedBlock {
 
     private void updateNearbyBlock(Level world, BlockPos pos, Direction blockFacing) {
         world.updateNeighborsAt(pos.relative(blockFacing), this);
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new OperatorButtonBlockEntity(pos, state);
     }
 }

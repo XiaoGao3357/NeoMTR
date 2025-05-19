@@ -3,7 +3,7 @@ package com.lx862.jcm.mod.render.gui.screen;
 import com.lx862.jcm.mod.block.entity.SoundLooperBlockEntity;
 import com.lx862.jcm.mod.network.block.SoundLooperUpdatePacket;
 import com.lx862.jcm.mod.registry.Networking;
-import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigScreen;
+import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigListScreen;
 import com.lx862.jcm.mod.render.gui.widget.BlockPosWidget;
 import com.lx862.jcm.mod.render.gui.widget.IntegerTextField;
 import com.lx862.jcm.mod.util.TextCategory;
@@ -14,7 +14,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.network.chat.Component;
 
-public class SoundLooperScreen extends BlockConfigScreen {
+public class SoundLooperScreen extends BlockConfigListScreen {
     private final Button soundCategoryButton;
     private final WidgetBetterTextField soundIdTextField;
     private final IntegerTextField repeatTickTextField;

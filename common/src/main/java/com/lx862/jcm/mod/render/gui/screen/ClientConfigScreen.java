@@ -4,7 +4,7 @@ import com.lx862.jcm.mod.Constants;
 import com.lx862.jcm.mod.JCM;
 import com.lx862.jcm.mod.JCMClient;
 import com.lx862.jcm.mod.render.gui.GuiHelper;
-import com.lx862.jcm.mod.render.gui.screen.base.TitledScreenJCM;
+import com.lx862.jcm.mod.render.gui.screen.base.TitledScreen;
 import com.lx862.jcm.mod.render.gui.widget.ListViewWidget;
 import com.lx862.jcm.mod.render.gui.widget.WidgetSet;
 import com.lx862.jcm.mod.util.JCMLogger;
@@ -25,7 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-public class ClientConfigScreen extends TitledScreenJCM implements GuiHelper {
+public class ClientConfigScreen extends TitledScreen implements GuiHelper {
     private static final ResourceLocation TEXTURE_BACKGROUND = Constants.id("textures/gui/config_screen/bg.png");
     private static final ResourceLocation TEXTURE_STAR = Constants.id("textures/gui/config_screen/stars.png");
     private static final ResourceLocation TEXTURE_TERRAIN = Constants.id("textures/gui/config_screen/terrain.png");

@@ -1,7 +1,6 @@
 package com.lx862.jcm.mod.render.gui.screen.base;
 
 import com.lx862.jcm.mod.render.gui.GuiHelper;
-import com.lx862.jcm.mod.render.gui.widget.ListViewWidget;
 import com.lx862.jcm.mod.render.gui.widget.WidgetSet;
 import com.lx862.jcm.mod.util.TextCategory;
 import com.lx862.jcm.mod.util.TextUtil;
@@ -17,13 +16,13 @@ import net.minecraft.network.chat.MutableComponent;
 /**
  * GUI Screen for configuring block settings, you should extend this class for your own block config screen
  */
-public abstract class BlockConfigScreen extends TitledScreenJCM implements GuiHelper {
+public abstract class BlockConfigScreen extends TitledScreen implements GuiHelper {
     protected final BlockPos blockPos;
-    protected final ListViewWidget listViewWidget;
     protected final WidgetSet bottomEntryWidget;
     private final Button saveButton;
     private final Button discardButton;
     private boolean discardConfig = false;
+
     public BlockConfigScreen(Component title, BlockPos blockPos) {
         super(title, false);
         this.blockPos = blockPos;
@@ -37,40 +36,18 @@ public abstract class BlockConfigScreen extends TitledScreenJCM implements GuiHe
             onClose();
         }).size(0, 20).build();
 
-        this.listViewWidget = new ListViewWidget();
         this.bottomEntryWidget = new WidgetSet(20);
     }
 
-    @Override
-    protected void init() {
-        super.init();
-        int contentWidth = (int)Math.min((width * 0.75), MAX_CONTENT_WIDTH);
-        int listViewHeight = Math.max(150, (int)((height - 60) * 0.75));
-        int startX = (width - contentWidth) / 2;
-        int startY = getStartY() + TEXT_PADDING;
-        int bottomEntryHeight = (height - startY - listViewHeight - (BOTTOM_ROW_MARGIN * 2));
-
-        listViewWidget.reset();
+    protected void addBottomRowEntry(int x, int y, int width, int height) {
         bottomEntryWidget.reset();
-
-        listViewWidget.setXYSize(startX, startY, contentWidth, listViewHeight);
-        addConfigEntries();
-        addBottomRowButtons();
-        addRenderableWidget(listViewWidget);
-        addRenderableWidget(bottomEntryWidget);
-        listViewWidget.positionWidgets();
-        bottomEntryWidget.setXYSize(startX, startY + listViewHeight + BOTTOM_ROW_MARGIN, contentWidth, bottomEntryHeight);
-    }
-
-    public abstract void addConfigEntries();
-    public abstract void onSave();
-
-    protected void addBottomRowButtons() {
         addRenderableWidget(saveButton);
         addRenderableWidget(discardButton);
 
         bottomEntryWidget.addWidget(saveButton);
         bottomEntryWidget.addWidget(discardButton);
+        bottomEntryWidget.setXYSize(x, y, width, height);
+        addRenderableWidget(bottomEntryWidget);
     }
 
     @Override
@@ -90,6 +67,8 @@ public abstract class BlockConfigScreen extends TitledScreenJCM implements GuiHe
             );
         }
     }
+
+    public abstract void onSave();
 
     @Override
     public void onClose() {

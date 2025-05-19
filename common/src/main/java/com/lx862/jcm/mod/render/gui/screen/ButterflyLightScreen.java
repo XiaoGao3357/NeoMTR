@@ -3,13 +3,12 @@ package com.lx862.jcm.mod.render.gui.screen;
 import com.lx862.jcm.mod.block.entity.ButterflyLightBlockEntity;
 import com.lx862.jcm.mod.network.block.ButterflyLightUpdatePacket;
 import com.lx862.jcm.mod.registry.Networking;
-import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigScreen;
+import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigListScreen;
 import com.lx862.jcm.mod.render.gui.widget.IntegerTextField;
 import com.lx862.jcm.mod.util.TextCategory;
 import com.lx862.jcm.mod.util.TextUtil;
-import net.minecraft.network.chat.MutableComponent;
 
-public class ButterflyLightScreen extends BlockConfigScreen {
+public class ButterflyLightScreen extends BlockConfigListScreen {
     private final IntegerTextField startBlinkingSecondsTextField;
     private final ButterflyLightBlockEntity blockEntity;
 
