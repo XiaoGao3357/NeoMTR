@@ -66,7 +66,7 @@ public class PIDSScreen extends BlockConfigListScreen {
 
         this.choosePlatformButton = Button.builder(TextUtil.translatable(TextCategory.GUI, "pids.listview.widget.change_platform"), (btn) -> {
             final Station station = RailwayData.getStation(ClientData.STATIONS, ClientData.DATA_CACHE, blockPos);
-            if(station != null) {
+            if(station == null) {
                 //platformsForList = getPlatformsForList(new ObjectArrayList<>(station.savedRails));
             } else {
                 final List<NameColorDataBase> platformsForList = new ArrayList<>();
