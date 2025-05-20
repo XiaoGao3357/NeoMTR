@@ -35,7 +35,7 @@ dependencies {
 	clothConfigJar("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") { transitive false }
 	clothConfigJar("me.shedaniel.cloth:basic-math:0.6.1") { transitive false }
 
-	modImplementation 'folk.sisby:surveyor:1.0.0-alpha.6+1.21'
+	modImplementation "folk.sisby:surveyor:${rootProject.ext.surveyor_version}"
 }
 
 processResources {
