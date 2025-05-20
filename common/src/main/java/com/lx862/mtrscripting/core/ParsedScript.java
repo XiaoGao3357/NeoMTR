@@ -123,7 +123,8 @@ public class ParsedScript {
         if(instance.scriptTask != null && !instance.scriptTask.isDone()) {
             return instance.scriptTask;
         }
-        return invokeFunction(instance, renderFunctions, callback);
+        instance.scriptTask = invokeFunction(instance, renderFunctions, callback);
+        return instance.scriptTask;
     }
 
     public Future<?> invokeDisposeFunction(ScriptInstance<?> instance, Runnable callback) {
