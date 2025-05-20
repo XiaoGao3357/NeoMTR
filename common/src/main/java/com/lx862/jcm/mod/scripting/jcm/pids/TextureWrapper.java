@@ -66,7 +66,7 @@ public class TextureWrapper extends PIDSDrawCall {
     }
 
     @Override
-    protected void drawTransformed(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing) {
+    protected void drawTransformed(PoseStack poseStack, MultiBufferSource bufferSource, Direction facing) {
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.text(this.id));
         RenderHelper.drawTexture(poseStack, vertexConsumer, 0, 0, 0, (float)w, (float)h, u1, v1, u2, v2, facing, ARGB_BLACK + color, MAX_RENDER_LIGHT);
     }

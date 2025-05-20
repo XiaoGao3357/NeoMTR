@@ -42,7 +42,7 @@ public abstract class PIDSDrawCall extends ScriptResultCall {
     }
 
     @Override
-    public void run(Level world, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing, int light) {
+    public void run(Level world, PoseStack poseStack, MultiBufferSource bufferSource, Direction facing, int light) {
         poseStack.pushPose();
 
 //        storedMatrixTransformations.transform(graphicsHolder, Vector3d.getZeroMapped());
@@ -53,5 +53,5 @@ public abstract class PIDSDrawCall extends ScriptResultCall {
 
     protected abstract void validate();
 
-    protected abstract void drawTransformed(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing);
+    protected abstract void drawTransformed(PoseStack poseStack, MultiBufferSource bufferSource, Direction facing);
 }

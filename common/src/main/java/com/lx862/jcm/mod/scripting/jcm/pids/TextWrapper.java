@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +129,7 @@ public class TextWrapper extends PIDSDrawCall {
     }
 
     @Override
-    protected void drawTransformed(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing) {
+    protected void drawTransformed(PoseStack poseStack, MultiBufferSource bufferSource, Direction facing) {
         poseStack.scale((float)scale, (float)scale, (float)scale);
 
         List<MutableComponent> texts = new ArrayList<>();
@@ -166,7 +165,7 @@ public class TextWrapper extends PIDSDrawCall {
                     curLine.append(c);
                 }
             }
-            if(curLine.length() > 0) {
+            if(!curLine.isEmpty()) {
                 texts.add(getFormattedText(curLine.toString()));
             }
         } else {
@@ -184,7 +183,7 @@ public class TextWrapper extends PIDSDrawCall {
         }
     }
 
-    private void drawText(MutableComponent text, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, int y, int color, boolean shadow, int light) {
+    private void drawText(MutableComponent text, PoseStack poseStack, MultiBufferSource bufferSource, int y, int color, boolean shadow, int light) {
         int startX = 0;
         int totalW = Minecraft.getInstance().font.width(text);
         if(alignment == 0) {
@@ -196,7 +195,7 @@ public class TextWrapper extends PIDSDrawCall {
         Minecraft.getInstance().font.drawInBatch(text, startX, y, color, shadow, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
     }
 
-    private void drawMarqueeText(String str, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, int color, boolean shadow, int light) {
+    private void drawMarqueeText(String str, PoseStack poseStack, MultiBufferSource bufferSource, int color, boolean shadow, int light) {
         final MutableComponent text = getFormattedText(str);
         int fullWidth = Minecraft.getInstance().font.width(text);
         int cycleDuration = str.length() * 16;
@@ -227,10 +226,5 @@ public class TextWrapper extends PIDSDrawCall {
         }
 
         return Component.literal(str).withStyle(fontStyle);
-    }
-
-    @Override
-    public void run(Level level, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing, int light) {
-
     }
 }

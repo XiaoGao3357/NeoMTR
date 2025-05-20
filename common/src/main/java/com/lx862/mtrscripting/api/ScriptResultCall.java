@@ -6,5 +6,5 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
 public abstract class ScriptResultCall {
-    public abstract void run(Level level, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, Direction facing, int light);
+    public abstract void run(Level level, PoseStack poseStack, MultiBufferSource bufferSource, Direction facing, int light);
 }
