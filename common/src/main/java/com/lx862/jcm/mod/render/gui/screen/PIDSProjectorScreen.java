@@ -2,6 +2,7 @@ package com.lx862.jcm.mod.render.gui.screen;
 
 import com.lx862.jcm.mod.block.entity.PIDSProjectorBlockEntity;
 import com.lx862.jcm.mod.network.block.PIDSProjectorUpdatePacket;
+import com.lx862.jcm.mod.registry.Blocks;
 import com.lx862.jcm.mod.registry.Networking;
 import com.lx862.jcm.mod.render.gui.widget.CategoryItem;
 import com.lx862.jcm.mod.render.gui.widget.DoubleTextField;
@@ -20,7 +21,7 @@ public class PIDSProjectorScreen extends PIDSScreen {
     private final DoubleTextField rotateZField;
 
     public PIDSProjectorScreen(PIDSProjectorBlockEntity blockEntity) {
-        super(TextUtil.translatable(TextCategory.BLOCK, "pids_projector"), blockEntity);
+        super(Blocks.PIDS_PROJECTOR.get().getName(), blockEntity);
 
         this.xField = new DoubleTextField(0, 0, 40, 20, -1000, 1000, 0);
         this.yField = new DoubleTextField(0, 0, 40, 20, -1000, 1000, 0);

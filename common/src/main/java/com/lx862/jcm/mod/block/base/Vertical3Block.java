@@ -6,10 +6,12 @@ import mtr.block.IBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,6 +38,12 @@ public abstract class Vertical3Block extends DirectionalBlock {
     }
 
     @Override
+    public BlockState playerWillDestroy(Level world, BlockPos breakPos, BlockState breakState, Player player) {
+        breakWithoutDropIfCreative(world, breakPos, breakState, player, this, this::getLootDropPos);
+        return super.playerWillDestroy(world, breakPos, breakState, player);
+    }
+
+    @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         if(!BlockUtil.canSurvive(state.getBlock(), world, pos, Direction.UP, getPart(IBlock.getStatePropertySafe(state, THIRD)), HEIGHT)) {
             return Blocks.AIR.defaultBlockState();
@@ -51,7 +59,7 @@ public abstract class Vertical3Block extends DirectionalBlock {
     }
 
     @Override
-    public BlockPos[] getAllPos(BlockState state, Level world, BlockPos pos) {
+    public BlockPos[] getAllPos(BlockState state, LevelReader world, BlockPos pos) {
         switch(IBlock.getStatePropertySafe(state, THIRD)) {
             case LOWER:
                 return new BlockPos[]{
@@ -70,6 +78,15 @@ public abstract class Vertical3Block extends DirectionalBlock {
                         pos};
             default:
                 return super.getAllPos(state, world, pos);
+        }
+    }
+
+    private BlockPos getLootDropPos(BlockState state, BlockPos pos) {
+        switch(IBlock.getStatePropertySafe(state, THIRD)) {
+            case LOWER: return pos;
+            case MIDDLE: return pos.below();
+            case UPPER: return pos.below(2);
+            default: return pos;
         }
     }
 

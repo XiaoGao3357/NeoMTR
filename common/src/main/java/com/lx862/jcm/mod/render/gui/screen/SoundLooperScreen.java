@@ -2,6 +2,7 @@ package com.lx862.jcm.mod.render.gui.screen;
 
 import com.lx862.jcm.mod.block.entity.SoundLooperBlockEntity;
 import com.lx862.jcm.mod.network.block.SoundLooperUpdatePacket;
+import com.lx862.jcm.mod.registry.Blocks;
 import com.lx862.jcm.mod.registry.Networking;
 import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigListScreen;
 import com.lx862.jcm.mod.render.gui.widget.BlockPosWidget;
@@ -26,7 +27,7 @@ public class SoundLooperScreen extends BlockConfigListScreen {
     private int soundCategory;
 
     public SoundLooperScreen(SoundLooperBlockEntity blockEntity) {
-        super(TextUtil.translatable(TextCategory.BLOCK, "sound_looper"), blockEntity.getBlockPos());
+        super(Blocks.SOUND_LOOPER.get().getName(), blockEntity.getBlockPos());
 
         this.soundCategoryButton = Button.builder(Component.empty(), (btn) -> {
             setSoundCategory((this.soundCategory + 1) % SoundLooperBlockEntity.SOURCE_LIST.length);

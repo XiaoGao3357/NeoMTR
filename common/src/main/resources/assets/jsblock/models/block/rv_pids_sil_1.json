@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "mtr:block/metal",
-		"2": "jsblock:block/pids_rv_sil_1",
+		"2": "jsblock:block/rv_pids_sil_1",
 		"3": "jsblock:block/black",
 		"particle": "mtr:block/metal"
 	},

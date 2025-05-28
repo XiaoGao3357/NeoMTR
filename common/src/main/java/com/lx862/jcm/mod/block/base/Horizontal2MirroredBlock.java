@@ -1,10 +1,12 @@
 package com.lx862.jcm.mod.block.base;
 
+import com.lx862.jcm.mod.block.behavior.VerticalDoubleBlock;
 import com.lx862.jcm.mod.util.BlockUtil;
 import mtr.block.IBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -35,6 +37,12 @@ public abstract class Horizontal2MirroredBlock extends DirectionalBlock {
     }
 
     @Override
+    public BlockState playerWillDestroy(Level world, BlockPos breakPos, BlockState breakState, Player player) {
+        breakWithoutDropIfCreative(world, breakPos, breakState, player, this, this::getLootDropPos);
+        return super.playerWillDestroy(world, breakPos, breakState, player);
+    }
+
+    @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         if(IBlock.getStatePropertySafe(state, FACING) == direction && !(neighborState.is(this))) {
             return Blocks.AIR.defaultBlockState();
@@ -46,5 +54,11 @@ public abstract class Horizontal2MirroredBlock extends DirectionalBlock {
         Direction facing = IBlock.getStatePropertySafe(state, FACING);
         BlockPos otherPos = pos.relative(facing);
         return new BlockPos[]{ pos, otherPos };
+    }
+
+    public BlockPos getLootDropPos(BlockState state, BlockPos pos) {
+        Direction facing = IBlock.getStatePropertySafe(state, FACING);
+        if(facing == Direction.EAST || facing == Direction.NORTH) return pos;
+        return pos.relative(facing);
     }
 }

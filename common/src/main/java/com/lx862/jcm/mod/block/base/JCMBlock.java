@@ -2,7 +2,9 @@ package com.lx862.jcm.mod.block.base;
 
 import com.lx862.jcm.mod.util.BlockUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,8 +29,22 @@ public abstract class JCMBlock extends Block {
         }
     }
 
+    protected void breakWithoutDropIfCreative(Level world, BlockPos pos, BlockState state, Player player, Block blockInstance, GetLootDropPositionCallback getLootPos) {
+        if(player.isCreative()) {
+            BlockPos dropPos = getLootPos.get(state, pos);
+            if(world.getBlockState(dropPos).getBlock().equals(blockInstance)) {
+                world.destroyBlock(dropPos, false);
+            }
+        }
+    }
+
     /* Get all pos of the entire block structure */
-    public BlockPos[] getAllPos(BlockState state, Level world, BlockPos sourcePos) {
+    public BlockPos[] getAllPos(BlockState state, LevelReader world, BlockPos sourcePos) {
         return new BlockPos[]{sourcePos};
+    }
+
+    @FunctionalInterface
+    public interface GetLootDropPositionCallback {
+        BlockPos get(BlockState state, BlockPos pos);
     }
 }

@@ -48,7 +48,7 @@ public class ParsedScript {
 
             scope.put("MinecraftClient", scope, new NativeJavaClass(scope, MinecraftClientUtil.class));
 
-            scriptManager.callOnParseScriptCallback(contextName, cx, scope);
+            scriptManager.onParseScript(contextName, cx, scope);
 
             cx.evaluateString(scope, "\"use strict\";", "", 1, null);
 

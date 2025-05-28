@@ -13,8 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-import java.util.List;
-
 import static com.lx862.jcm.mod.block.base.DirectionalBlock.FACING;
 
 public interface HorizontalDoubleBlockBehavior {
@@ -38,6 +36,12 @@ public interface HorizontalDoubleBlockBehavior {
 
     static void onPlaced(Level world, BlockState state, BlockPos placedPos) {
         world.setBlockAndUpdate(placedPos.relative(IBlock.getStatePropertySafe(state, FACING).getClockWise()), state.setValue(IS_LEFT, false));
+    }
+
+    static BlockPos getLootDropPos(BlockState state, BlockPos pos) {
+        Direction facing = IBlock.getStatePropertySafe(state, FACING);
+        boolean isLeft = IBlock.getStatePropertySafe(state, IS_LEFT);
+        return isLeft ? pos : pos.relative(facing.getCounterClockWise());
     }
 
     static void addProperties(StateDefinition.Builder<Block, BlockState> builder) {

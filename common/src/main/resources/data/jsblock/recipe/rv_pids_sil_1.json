@@ -2,7 +2,7 @@
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"III",
-		"BGB",
+		"IGI",
 		"III"
 	],
 	"key": {
@@ -11,13 +11,10 @@
 		},
 		"G": {
 			"item": "minecraft:glowstone"
-		},
-		"B": {
-			"item": "minecraft:black_concrete"
 		}
 	},
 	"result": {
 		"count": 8,
-		"id": "jsblock:pids_rv_sil_2"
+		"id": "jsblock:rv_pids_sil_1"
 	}
 }

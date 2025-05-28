@@ -1,10 +1,10 @@
 {
 	"texture_size": [16, 32],
 	"textures": {
-		"1": "jsblock:block/faresaver1",
-		"2": "jsblock:block/faresaver_banner1",
+		"1": "jsblock:block/fare_saver_upper",
+		"2": "jsblock:block/fare_saver_banner_upper",
 		"3": "mtr:block/sign/logo",
-		"particle": "jsblock:block/faresaver_banner1"
+		"particle": "jsblock:block/fare_saver_banner_upper"
 	},
 	"elements": [
 		{

@@ -12,15 +12,22 @@
               "terms": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "jsblock:faresaver",
+                  "block": "jsblock:lcd_pids",
                   "properties": {
-                    "third": "lower"
+                    "facing": "north"
+                  }
+                },
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "jsblock:lcd_pids",
+                  "properties": {
+                    "facing": "east"
                   }
                 }
               ]
             }
           ],
-          "name": "jsblock:faresaver"
+          "name": "jsblock:lcd_pids"
         }
       ],
       "conditions": []

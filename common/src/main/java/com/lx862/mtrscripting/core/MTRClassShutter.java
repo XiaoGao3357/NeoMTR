@@ -8,7 +8,10 @@ import it.unimi.dsi.fastutil.objects.ObjectList;
 import java.util.Arrays;
 
 /**
- * Limit the usage of arbitrary java class for security reason
+ * By default, MTR Scripting does not allow loading any arbitrary java class for security reasons<br>
+ * Here, you can explicitly allow a class to be loaded.<br>
+ * It is compared using String.startWith, so this can also be used for allowing a whole package (e.g. java.awt)<br>
+ * Please use this wisely instead of blindly allowing classes for your convenience, we don't want a script to affect anything outside of MC.
  */
 public class MTRClassShutter implements ClassShutter {
     private final ObjectList<ClassRule> allowedScriptClasses = new ObjectArrayList<>();

@@ -2,6 +2,7 @@ package com.lx862.jcm.mod.render.gui.screen;
 
 import com.lx862.jcm.mod.block.entity.SubsidyMachineBlockEntity;
 import com.lx862.jcm.mod.network.block.SubsidyMachineUpdatePacket;
+import com.lx862.jcm.mod.registry.Blocks;
 import com.lx862.jcm.mod.registry.Networking;
 import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigListScreen;
 import com.lx862.jcm.mod.render.gui.widget.IntegerTextField;
@@ -13,7 +14,7 @@ public class SubsidyMachineScreen extends BlockConfigListScreen {
     private final IntegerTextField cooldownTextField;
 
     public SubsidyMachineScreen(SubsidyMachineBlockEntity blockEntity) {
-        super(TextUtil.translatable(TextCategory.BLOCK, "subsidy_machine"), blockEntity.getBlockPos());
+        super(Blocks.SUBSIDY_MACHINE.get().getName(), blockEntity.getBlockPos());
         this.priceTextField = new IntegerTextField(0, 0, 60, 20, 0, 50000, 10, TextUtil.translatable(TextCategory.GUI, "subsidy_machine.currency"));
         this.cooldownTextField = new IntegerTextField(0, 0, 60, 20, 0, 1200, 0);
 

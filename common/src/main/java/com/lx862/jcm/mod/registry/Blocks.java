@@ -110,7 +110,7 @@ public final class Blocks {
         JCMRegistry.registerBlockAndItem("exit_sign_odd", EXIT_SIGN_ODD, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("exit_sign_even", EXIT_SIGN_EVEN, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("fire_alarm", FIRE_ALARM, ItemGroups.MAIN);
-        JCMRegistry.registerBlockAndItem("faresaver", FARE_SAVER, ItemGroups.MAIN);
+        JCMRegistry.registerBlockAndItem("fare_saver", FARE_SAVER, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("helpline_1", HELPLINE_1, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("helpline_2", HELPLINE_2, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("helpline_hkwk", HELPLINE_HKWK, ItemGroups.MAIN);
@@ -121,7 +121,7 @@ public final class Blocks {
         JCMRegistry.registerBlockAndItem("kcr_name_sign", KCR_STATION_NAME_SIGN, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("kcr_name_sign_station_color", KCR_STATION_NAME_SIGN_STATION_COLOR, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("kcr_trespass_sign", KCR_TRESPASS_SIGN, ItemGroups.MAIN);
-        JCMRegistry.registerBlockAndItem("pids_lcd", LCD_PIDS, ItemGroups.PIDS);
+        JCMRegistry.registerBlockAndItem("lcd_pids", LCD_PIDS, ItemGroups.PIDS);
         JCMRegistry.registerBlockAndItem("light_block", LIGHT_BLOCK, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("light_lantern", LIGHT_LANTERN, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("lrt_trespass_sign", LRT_TRESPASS_SIGN, ItemGroups.MAIN);
@@ -135,9 +135,9 @@ public final class Blocks {
         JCMRegistry.registerBlockAndItem("operator_button", OPERATOR_BUTTON, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("pids_projector", PIDS_PROJECTOR, ItemGroups.PIDS);
         JCMRegistry.registerBlockAndItem("pids_1a", PIDS_1A, ItemGroups.PIDS);
-        JCMRegistry.registerBlockAndItem("pids_rv", RV_PIDS, ItemGroups.PIDS);
-        JCMRegistry.registerBlockAndItem("pids_rv_sil_1", RV_PIDS_SIL_1, ItemGroups.PIDS);
-        JCMRegistry.registerBlockAndItem("pids_rv_sil_2", RV_PIDS_SIL_2, ItemGroups.PIDS);
+        JCMRegistry.registerBlockAndItem("rv_pids", RV_PIDS, ItemGroups.PIDS);
+        JCMRegistry.registerBlockAndItem("rv_pids_sil_1", RV_PIDS_SIL_1, ItemGroups.PIDS);
+        JCMRegistry.registerBlockAndItem("rv_pids_sil_2", RV_PIDS_SIL_2, ItemGroups.PIDS);
         JCMRegistry.registerBlockAndItem("rv_pids_pole", RV_PIDS_POLE, ItemGroups.PIDS);
         JCMRegistry.registerBlockAndItem("rv_enquiry_machine", RV_ENQUIRY_MACHINE, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("sil_emg_stop_button", SIL_EMG_STOP_BUTTON, ItemGroups.MAIN);

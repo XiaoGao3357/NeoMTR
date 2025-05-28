@@ -1,8 +1,8 @@
 {
 	"texture_size": [16, 32],
 	"textures": {
-		"1": "jsblock:block/faresaver3",
-		"particle": "jsblock:block/faresaver3"
+		"1": "jsblock:block/fare_saver_lower",
+		"particle": "jsblock:block/fare_saver_lower"
 	},
 	"elements": [
 		{

@@ -1,11 +1,11 @@
 {
 	"texture_size": [8, 16],
 	"textures": {
-		"1": "jsblock:block/faresaver2",
-		"2": "jsblock:block/faresaver_banner2",
-		"3": "jsblock:block/faresaver_machine",
-		"4": "jsblock:block/faresaver_octo",
-		"particle": "jsblock:block/faresaver_banner2"
+		"1": "jsblock:block/fare_saver_middle",
+		"2": "jsblock:block/fare_saver_banner_middle",
+		"3": "jsblock:block/fare_saver_machine",
+		"4": "jsblock:block/fare_saver_octo",
+		"particle": "jsblock:block/fare_saver_banner_middle"
 	},
 	"elements": [
 		{

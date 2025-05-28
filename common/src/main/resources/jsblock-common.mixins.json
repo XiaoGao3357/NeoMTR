@@ -4,7 +4,7 @@
   "package": "com.lx862.jcm.mod.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "compat.SimpleDefaultedRegistryMixin",
+    "compat.MappedRegistryMixin",
     "modded.MixinTicketSystem"
   ],
   "injectors": {

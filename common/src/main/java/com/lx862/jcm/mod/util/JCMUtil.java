@@ -29,7 +29,8 @@ public class JCMUtil {
                 case "exit_sign_1e":
                     return Constants.id("exit_sign_even");
                 case "faresaver_1":
-                    return Constants.id("faresaver");
+                case "faresaver":
+                    return Constants.id("fare_saver");
                 case "helpline_3":
                     return Constants.id("helpline_standing_eal");
                 case "helpline_4":
@@ -57,13 +58,19 @@ public class JCMUtil {
                 case "op_button":
                     return Constants.id("operator_button");
                 case "pids_4":
-                    return Constants.id("pids_lcd");
+                case "pids_lcd":
+                    return Constants.id("lcd_pids");
+                case "pids_rv":
+                    return Constants.id("rv_pids");
                 case "pids_rv_sil":
-                    return Constants.id("pids_rv_sil_1");
+                case "pids_rv_sil_1":
+                    return Constants.id("rv_pids_sil_1");
+                case "pids_rv_sil_2":
+                    return Constants.id("rv_pids_sil_2");
                 case "station_ceiling_1":
                     return Constants.id("station_ceiling_wrl");
                 case "station_ceiling_1_station_color":
-                    return Constants.id("station_ceiling_wrl_station_colored");
+                    return Constants.id("station_ceiling_wrl_station_color");
                 case "station_ceiling_pole":
                     return Constants.id("station_ceiling_wrl_pole");
                 case "station_name_tall_stand":

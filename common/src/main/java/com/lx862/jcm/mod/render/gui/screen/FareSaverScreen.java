@@ -2,6 +2,7 @@ package com.lx862.jcm.mod.render.gui.screen;
 
 import com.lx862.jcm.mod.block.entity.FareSaverBlockEntity;
 import com.lx862.jcm.mod.network.block.FareSaverUpdatePacket;
+import com.lx862.jcm.mod.registry.Blocks;
 import com.lx862.jcm.mod.registry.Networking;
 import com.lx862.jcm.mod.render.gui.screen.base.BlockConfigListScreen;
 import com.lx862.jcm.mod.render.gui.widget.IntegerTextField;
@@ -12,8 +13,9 @@ import mtr.screen.WidgetBetterTextField;
 public class FareSaverScreen extends BlockConfigListScreen {
     private final IntegerTextField discountTextField;
     private final WidgetBetterTextField prefixTextField;
+
     public FareSaverScreen(FareSaverBlockEntity blockEntity) {
-        super(TextUtil.translatable(TextCategory.BLOCK, "faresaver"), blockEntity.getBlockPos());
+        super(Blocks.FARE_SAVER.get().getName(), blockEntity.getBlockPos());
         this.prefixTextField = new WidgetBetterTextField("$", 4);
         this.prefixTextField.setSize(60, 20);
         this.prefixTextField.setValue(blockEntity.getPrefix());

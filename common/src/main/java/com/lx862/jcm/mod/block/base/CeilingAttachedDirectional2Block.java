@@ -7,6 +7,7 @@ import mtr.block.IBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -42,6 +43,12 @@ public abstract class CeilingAttachedDirectional2Block extends CeilingAttachedDi
 
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         HorizontalDoubleBlockBehavior.placeBlock(world, pos, state, IS_LEFT, state.getValue(FACING).getClockWise(), width);
+    }
+
+    @Override
+    public BlockState playerWillDestroy(Level world, BlockPos breakPos, BlockState breakState, Player player) {
+        breakWithoutDropIfCreative(world, breakPos, breakState, player, this, HorizontalDoubleBlockBehavior::getLootDropPos);
+        return super.playerWillDestroy(world, breakPos, breakState, player);
     }
 
     @Override
