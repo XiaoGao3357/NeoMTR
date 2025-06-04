@@ -3,7 +3,6 @@ package net.londonunderground.mod.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mtr.mappings.BlockEntityRendererMapper;
-import mtr.mappings.Utilities;
 import net.londonunderground.mod.LUAddon;
 import net.londonunderground.mod.blocks.TunnelDarknessBlock;
 import net.londonunderground.mod.registry.Blocks;
@@ -26,7 +25,7 @@ public class RenderDarkTile<T extends TunnelDarknessBlock.TileEntityTunnelDarkne
 		if (player == null) {
 			return;
 		}
-		if (!Utilities.isHolding(player, item -> item == Blocks.TUNNEL_DARKNESS.get().asItem())) {
+		if (!player.isHolding(Blocks.TUNNEL_DARKNESS.get().asItem())) {
 			if (entity.getBlockPos().distSqr(player.blockPosition()) < 8196) {
 				return;
 			}
