@@ -39,8 +39,7 @@ public class LiftTrackFloorScreen extends ScreenMapper implements IGui {
 		textFieldFloorDescription = new WidgetBetterTextField("Concourse");
 		checkboxShouldDing = new WidgetBetterCheckbox(0, 0, 0, SQUARE_SIZE, Text.translatable("gui.mtr.lift_should_ding"), checked -> {
 		});
-		// TODO I18n
-		checkboxDisableCarCall = new WidgetBetterCheckbox(0, 0, 0, SQUARE_SIZE, Text.literal("Car Call Disable"), checked -> {
+		checkboxDisableCarCall = new WidgetBetterCheckbox(0, 0, 0, SQUARE_SIZE, Text.translatable("gui.mtr.lift_car_call_disable"), checked -> {
 		});
 
 		final Level world = Minecraft.getInstance().level;
