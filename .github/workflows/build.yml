@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NeoMTR-common-${{ steps.vars.outputs.sha_short }}
-          path: common/build/libs/
+          path: common/build/devlibs/
