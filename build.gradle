@@ -39,6 +39,10 @@ configure(subprojects.findAll {it.name != 'rhino'}) {
 	configurations {
 		shadowCommon
 	}
+	
+	shadowJar {
+		zip64 true
+	}
 
 	dependencies {
 		minecraft "com.mojang:minecraft:${minecraft_version}"
