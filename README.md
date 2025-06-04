@@ -21,6 +21,10 @@ A:
 **Q: Should I use this?**  
 A: It's not a very serious project to fit with everyone's demand, just sort of my own spin on NeoMTR & MTR. If you like you can use it, but I might change things any second!
 
+**Q: How can I check whether user installed NeoMTR or NeoMTR Pro Max?**  
+A: **NeoMTR Pro Max** uses the version scheme `114.x.x`, while **NeoMTR** uses `300.x.x`.  
+If you want to target **NeoMTR Pro Max**, check for `>114.0.0 < 300.0.0`. If you want to target **NeoMTR**, check for `>300.0.0`.
+
 Original description of MTR as below:
 
 <hr>
