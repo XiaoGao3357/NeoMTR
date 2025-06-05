@@ -18,14 +18,6 @@ public class ScriptingAPI {
     private static final Object2ObjectArrayMap<String, String> addonVersionMap = new Object2ObjectArrayMap<>();
 
     /**
-     * Create a new script manager.
-     * @param thread An executor service, where script tasks will be submitted.
-     */
-    public static ScriptManager createScriptManager() {
-        return new ScriptManager();
-    }
-
-    /**
      * Register a version for a Mod ID, used by scripts calling {@link ScriptResourceUtil#getAddonVersion};
      * @param modid Your Mod ID
      * @param version Your version number. The format of the version string should be documented in your mod's documentation.

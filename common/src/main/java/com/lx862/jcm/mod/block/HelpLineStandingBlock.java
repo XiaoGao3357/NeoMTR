@@ -61,6 +61,7 @@ public class HelpLineStandingBlock extends Vertical3Block implements PowerableBl
         return IBlock.getStatePropertySafe(state, UNPOWERED) ? 0 : 15;
     }
 
+    @Override
     public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
         return IBlock.getStatePropertySafe(state, UNPOWERED) ? 0 : 15;
     }

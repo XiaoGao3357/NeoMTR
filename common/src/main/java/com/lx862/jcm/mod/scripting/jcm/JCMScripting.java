@@ -10,7 +10,7 @@ import com.lx862.mtrscripting.lib.org.mozilla.javascript.NativeJavaClass;
 import mtr.client.ClientData;
 
 public class JCMScripting {
-    private static final ScriptManager scriptManager = ScriptingAPI.createScriptManager();
+    private static final ScriptManager scriptManager = new ScriptManager();
     /**
      * Called once when the mod entrypoint is invoked
      */

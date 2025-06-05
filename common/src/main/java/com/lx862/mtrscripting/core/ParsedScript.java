@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
+/**
+ * Represent a script which has been parsed/executed and ready for functions to be invoked
+ */
 public class ParsedScript {
     private static final int SCRIPT_RESET_TIME = 4000;
     private final List<Function> createFunctions;
@@ -131,6 +134,9 @@ public class ParsedScript {
         return invokeFunction(instance, disposeFunctions, callback);
     }
 
+    /**
+     * @return Whether we are currently in the cooldown period after an errored script execution, and script shouldn't be executed.
+     */
     private boolean duringFailCooldown() {
         return lastFailedTime != -1 && System.currentTimeMillis() - lastFailedTime <= SCRIPT_RESET_TIME;
     }
