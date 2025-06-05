@@ -19,6 +19,7 @@ import top.mcmtr.loader.MSDRegistry;
 import top.mcmtr.mod.blocks.BlockRigidCatenaryNode;
 import top.mcmtr.mod.packet.MSDPacket;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -171,7 +172,7 @@ public class RigidCatenaryData extends LineDataBase {
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
+    public void save(File file, HolderLookup.Provider registries) {
         final MinecraftServer minecraftServer = ((ServerLevel) world).getServer();
         if (minecraftServer.isStopped() || !minecraftServer.isRunning()) {
             rigidCatenaryDataFileSaveModule.fullSave();
@@ -179,8 +180,7 @@ public class RigidCatenaryData extends LineDataBase {
             rigidCatenaryDataFileSaveModule.autoSave();
         }
         setDirty();
-        super.save(compoundTag, registries);
-        return compoundTag;
+        super.save(file, registries);
     }
 
     private static void validateCatenaries(Level world, Map<BlockPos, Map<BlockPos, RigidCatenary>> rigidCatenaries) {

@@ -19,6 +19,7 @@ import top.mcmtr.loader.MSDRegistry;
 import top.mcmtr.mod.blocks.BlockNodeBase;
 import top.mcmtr.mod.packet.MSDPacket;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -197,7 +198,7 @@ public class TransCatenaryData extends LineDataBase {
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
+    public void save(File file, HolderLookup.Provider registries) {
         final MinecraftServer minecraftServer = ((ServerLevel) world).getServer();
         if (minecraftServer.isStopped() || !minecraftServer.isRunning()) {
             transCatenaryDataFileSaveModule.fullSave();
@@ -205,8 +206,7 @@ public class TransCatenaryData extends LineDataBase {
             transCatenaryDataFileSaveModule.autoSave();
         }
         setDirty();
-        super.save(compoundTag, registries);
-        return compoundTag;
+        super.save(file, registries);
     }
 
     /**

@@ -20,6 +20,7 @@ import top.mcmtr.mod.blocks.BlockNodeBase;
 import top.mcmtr.mod.blocks.BlockRigidCatenaryNode;
 import top.mcmtr.mod.packet.MSDPacket;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -194,7 +195,7 @@ public class CatenaryData extends LineDataBase {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+    public void save(File file, HolderLookup.Provider registries) {
         final MinecraftServer minecraftServer = ((ServerLevel) world).getServer();
         if (minecraftServer.isStopped() || !minecraftServer.isRunning()) {
             catenaryDataFileSaveModule.fullSave();
@@ -202,6 +203,6 @@ public class CatenaryData extends LineDataBase {
             catenaryDataFileSaveModule.autoSave();
         }
         setDirty();
-        return tag;
+        super.save(file, registries);
     }
 }
