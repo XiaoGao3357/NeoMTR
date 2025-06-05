@@ -36,7 +36,7 @@ public final class LUAddonClient {
 		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.BLOCK_ROUNDEL_STATION_TYPE_B_TILE_ENTITY.get(), dispatcher -> new RenderRoundel<>(dispatcher, 22 / 13F, 0.22F / 13, 0.01F, -0.039F, 1.296F, 0, 0xFFB3B3B3, false, "johnston"));
 		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.BLOCK_ROUNDEL_STATION_TYPE_C_TILE_ENTITY.get(), dispatcher -> new RenderRoundel<>(dispatcher, 32 / 5F, 1.32F / 13, 0.01F, 1.739F, 0.596F, 30, 0xFF000000, false, "beeching"));
 
-		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.NAME_PROJECTOR.get(), RenderNameProjector::new);
+		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.NAME_PROJECTOR.get(), dispatcher -> new RenderNameProjector<>(dispatcher, 22 / 13F, 0.22F / 13, 0.01F, -0.039F, 1.496F, 0, 0xFFB3B3B3, false, "johnston"));
 
 		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.MORDEN_SIGN_TILE_ENTITY.get(), dispatcher -> new RenderRoundel<>(dispatcher, 15 / 16F, 0.2F / 16, 0, 10 / 16F, 0.425F / 16, 0, 0xFFB3B3B3, true, "johnston"));
 		LUAddonRegistryClient.registerBlockEntityRenderer(BlockEntityTypes.METROPOLITAN_SIGN_TILE_ENTITY.get(), dispatcher -> new RenderRoundel<>(dispatcher, 15 / 16F, 0.2F / 16, 0, 10 / 16F, 0.425F / 16, 0, 0xFFB3B3B3, true, "johnston"));
