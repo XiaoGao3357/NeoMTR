@@ -8,7 +8,7 @@ import mtr.Keys;
 import mtr.registry.MTRAddonRegistry;
 
 public class JCM {
-    public static final MTRAddonRegistry.MTRAddon ADDON = new MTRAddonRegistry.MTRAddon(Constants.MOD_ID, "NeoJCM", Constants.MOD_VERSION);
+    public static final MTRAddonRegistry.MTRAddon ADDON = new MTRAddonRegistry.MTRAddon(Constants.MOD_ID, Constants.MOD_NAME, Constants.MOD_VERSION);
     private static final JCMConfig config = new JCMConfig();
 
     public static void init() {

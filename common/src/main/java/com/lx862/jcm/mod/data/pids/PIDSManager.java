@@ -3,6 +3,7 @@ package com.lx862.jcm.mod.data.pids;
 import com.google.gson.JsonObject;
 import com.lx862.jcm.mod.data.pids.preset.JsonPIDSPreset;
 import com.lx862.jcm.mod.data.pids.preset.PIDSPresetBase;
+import com.lx862.jcm.mod.data.pids.preset.ScriptPIDSPreset;
 import com.lx862.jcm.mod.util.JCMLogger;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 
@@ -21,11 +22,11 @@ public class PIDSManager {
                 presetId = jsonObject.get("id").getAsString();
                 PIDSPresetBase preset;
 
-//                if(jsonObject.has("scriptFiles") || jsonObject.has("scriptTexts")) {
-//                    preset = ScriptPIDSPreset.parse(jsonObject);
-//                } else {
+                if(jsonObject.has("scriptFiles") || jsonObject.has("scriptTexts")) {
+                    preset = ScriptPIDSPreset.parse(jsonObject);
+                } else {
                     preset = JsonPIDSPreset.parse(e.getAsJsonObject());
-//                }
+                }
 
                 if(presetList.containsKey(preset.getId()) && !preset.builtin) {
                     JCMLogger.error("Custom preset \"{}\" already added!", presetId);

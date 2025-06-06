@@ -18,7 +18,7 @@ public class ArrivalsWrapper {
     }
 
     public ArrivalWrapper get(int i) {
-        return arrivals.get(i);
+        return i >= arrivals.size() ? null : arrivals.get(i);
     }
 
     public boolean mixedCarLength() {

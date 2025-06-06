@@ -8,6 +8,7 @@ import com.lx862.jcm.mod.registry.Events;
 import com.lx862.jcm.mod.registry.Networking;
 import com.lx862.jcm.mod.render.gui.screen.ClientConfigScreen;
 import com.lx862.jcm.mod.resources.mcmeta.McMetaManager;
+import com.lx862.jcm.mod.scripting.jcm.JCMScripting;
 import mtr.MTRClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,6 +19,7 @@ public class JCMClient {
 
     public static void initializeClient() {
         config.read();
+        JCMScripting.register();
 
         // Registry
         Blocks.registerClient();

@@ -7,6 +7,8 @@ import mtr.data.Route;
 import mtr.data.ScheduleEntry;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.List;
+
 public class ArrivalWrapper {
     private final ScheduleEntry scheduleEntry;
 
@@ -64,5 +66,9 @@ public class ArrivalWrapper {
 
     public int carCount() {
         return scheduleEntry.trainCars;
+    }
+
+    public List<?> cars() { // CarDetails
+        throw new NotImplementedException();
     }
 }

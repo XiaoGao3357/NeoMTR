@@ -20,15 +20,17 @@ public class MTRClassShutter implements ClassShutter {
     public MTRClassShutter() {
         // Default
         allowClass(
-            ClassRule.parse("java.awt.*"),
+            ClassRule.parse("net.minecraft.*"),
             ClassRule.parse("java.lang.*"),
             ClassRule.parse("java.util.*"),
             ClassRule.parse("sun.java2d.*"),
             ClassRule.parse("java.io.Closeable"),
             ClassRule.parse("java.io.InputStream"),
-            ClassRule.parse("java.io.OutputStream")
+            ClassRule.parse("java.io.OutputStream"),
+            ClassRule.parse("jdk.proxy1.*")
         );
         denyClass(ClassRule.parse("java.lang.reflect.*"));
+        denyClass(ClassRule.parse("java.io.*"));
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.lx862.jcm.mod.scripting.jcm;
 
+import cn.zbx1425.mtrsteamloco.render.scripting.util.TextUtil;
 import com.lx862.jcm.mod.Constants;
 import com.lx862.jcm.mod.scripting.jcm.pids.TextWrapper;
 import com.lx862.jcm.mod.scripting.jcm.pids.TextureWrapper;
@@ -17,13 +18,15 @@ public class JCMScripting {
     public static void register() {
         ScriptingAPI.registerAddonVersion("jcm", Constants.MOD_VERSION);
 
-        scriptManager.getClassShutter().allowClass(ClassRule.parse("org.mtr.*"));
+        scriptManager.getClassShutter().allowClass(ClassRule.parse("org.mtr.*")); // MTR 4
+        scriptManager.getClassShutter().allowClass(ClassRule.parse("mtr.*")); // MTR 3
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.jcm.*"));
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.mtr.util.*"));
+        scriptManager.getClassShutter().allowClass(ClassRule.parse("cn.zbx1425.mtrsteamloco.render.scripting.util.TextUtil"));
 
         scriptManager.onParseScript((contextName, context, scriptable) -> {
             scriptable.put("MTRClientData", scriptable, new NativeJavaClass(scriptable, ClientData.class));
-            scriptable.put("TextUtil", scriptable, new NativeJavaClass(scriptable, com.lx862.jcm.mod.util.TextUtil.class));
+            scriptable.put("TextUtil", scriptable, new NativeJavaClass(scriptable, TextUtil.class));
 
             if (contextName.equals("PIDS")) {
                 scriptable.put("Text", scriptable, new NativeJavaClass(scriptable, TextWrapper.class));

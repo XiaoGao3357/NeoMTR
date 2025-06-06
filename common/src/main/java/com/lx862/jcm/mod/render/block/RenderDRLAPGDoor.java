@@ -87,7 +87,7 @@ public class RenderDRLAPGDoor<T extends APGDoorDRLBlockEntity> extends BlockEnti
 
         switch (type) {
             case 2:
-                final VertexConsumer vertexConsumerAPGDoor = bufferSource.getBuffer(MoreRenderLayers.getExterior(Constants.id(String.format("textures/block/psdapg/drlapg/apg_door_%s_%s.png", half ? "top" : "bottom", side ? "right" : "left"))));
+                final VertexConsumer vertexConsumerAPGDoor = bufferSource.getBuffer(MoreRenderLayers.getExterior(Constants.id(String.format("textures/entity/drl_apg_door/apg_door_%s_%s.png", half ? "top" : "bottom", side ? "right" : "left"))));
                 (half ? MODEL_APG_TOP : MODEL_APG_BOTTOM).renderToBuffer(poseStack, vertexConsumerAPGDoor, packedLight, packedOverlay, 0xFFFFFFFF);
                 if (half && !unlocked) {
                     final VertexConsumer vertexConsumerDoorLocked = bufferSource.getBuffer(MoreRenderLayers.getExterior(MTR.id("textures/block/sign/door_not_in_use.png")));
