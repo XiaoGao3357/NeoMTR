@@ -21,7 +21,7 @@ public class APGGlassDRL extends BlockAPGGlass {
 
     @Override
     public BlockEntityMapper createBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new APGGlassDRLBlockEntity(blockPos, blockState);
+        return null;
     }
 
     @Override

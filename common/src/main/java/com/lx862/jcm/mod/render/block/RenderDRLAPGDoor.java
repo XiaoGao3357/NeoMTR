@@ -131,7 +131,7 @@ public class RenderDRLAPGDoor<T extends APGDoorDRLBlockEntity> extends BlockEnti
 
             final ModelDataWrapper modelDataWrapper = new ModelDataWrapper(this, textureWidth, textureHeight);
 
-            bone = new ModelMapper(modelDataWrapper);;
+            bone = new ModelMapper(modelDataWrapper);
             bone.texOffs(0, 0).addBox(-8, -16, -7, 16, 16, 1, 0, false);
             bone.texOffs(0, 17).addBox(-8, -6, -8, 16, 6, 1, 0, false);
 

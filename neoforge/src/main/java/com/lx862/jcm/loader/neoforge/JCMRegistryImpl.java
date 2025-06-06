@@ -53,12 +53,12 @@ public class JCMRegistryImpl {
         });
     }
 
-    public static void registerItem(String id, RegistryObject<? extends Item> item) {
+    public static void registerItem(String id, RegistryObject<? extends Item> item, CreativeModeTabs.Wrapper creativeTab) {
         ITEMS.register(id, () -> {
             final Item itemObject = item.get();
 
-            if(itemObject instanceof ItemWithCreativeTabBase itm) {
-                MTRRegistry.registerCreativeModeTab(itm.creativeModeTab.resourceLocation, itemObject);
+            if(creativeTab != null) {
+                MTRRegistry.registerCreativeModeTab(creativeTab.resourceLocation, itemObject);
             }
             return itemObject;
         });

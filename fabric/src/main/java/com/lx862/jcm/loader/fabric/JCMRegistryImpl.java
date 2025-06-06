@@ -45,11 +45,11 @@ public class JCMRegistryImpl {
         FabricRegistryUtilities.registerCreativeModeTab(tab.get(), blockItem);
     }
 
-    public static void registerItem(String id, RegistryObject<? extends Item> item) {
+    public static void registerItem(String id, RegistryObject<? extends Item> item, CreativeModeTabs.Wrapper creativeTab) {
         Registry.register(BuiltInRegistries.ITEM, Constants.id(id), item.get());
 
-        if(item.get() instanceof ItemWithCreativeTabBase itm) {
-            FabricRegistryUtilities.registerCreativeModeTab(itm.creativeModeTab.get(), item.get());
+        if(creativeTab != null) {
+            FabricRegistryUtilities.registerCreativeModeTab(creativeTab.get(), item.get());
         }
     }
 

@@ -33,7 +33,7 @@ public class JCMRegistry {
     }
 
     @ExpectPlatform
-    public static void registerItem(String id, RegistryObject<? extends Item> item) {
+    public static void registerItem(String id, RegistryObject<? extends Item> item, CreativeModeTabs.Wrapper creativeTabs) {
         throw new AssertionError();
     }
 

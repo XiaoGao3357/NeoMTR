@@ -14,8 +14,8 @@ public class Items {
     public static void register() {
         // We just load the class and it will be registered, nothing else
         JCMLogger.debug("Registering items...");
-        JCMRegistry.registerItem("apg_door_drl", APG_DOOR_DRL);
-        JCMRegistry.registerItem("apg_glass_drl", APG_GLASS_DRL);
-        JCMRegistry.registerItem("apg_glass_end_drl", APG_GLASS_END_DRL);
+        JCMRegistry.registerItem("apg_door_drl", APG_DOOR_DRL, ItemGroups.MAIN);
+        JCMRegistry.registerItem("apg_glass_drl", APG_GLASS_DRL, ItemGroups.MAIN);
+        JCMRegistry.registerItem("apg_glass_end_drl", APG_GLASS_END_DRL, ItemGroups.MAIN);
     }
 }
