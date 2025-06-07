@@ -1,9 +1,9 @@
 package com.lx862.jcm.mod.scripting.jcm;
 
-import cn.zbx1425.mtrsteamloco.render.scripting.util.TextUtil;
 import com.lx862.jcm.mod.Constants;
 import com.lx862.jcm.mod.scripting.jcm.pids.TextWrapper;
 import com.lx862.jcm.mod.scripting.jcm.pids.TextureWrapper;
+import com.lx862.jcm.mod.scripting.mtr.util.TextUtil;
 import com.lx862.mtrscripting.ScriptManager;
 import com.lx862.mtrscripting.api.ClassRule;
 import com.lx862.mtrscripting.api.ScriptingAPI;
@@ -22,7 +22,6 @@ public class JCMScripting {
         scriptManager.getClassShutter().allowClass(ClassRule.parse("mtr.*")); // MTR 3
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.jcm.*"));
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.mtr.util.*"));
-        scriptManager.getClassShutter().allowClass(ClassRule.parse("cn.zbx1425.mtrsteamloco.render.scripting.util.TextUtil"));
 
         scriptManager.onParseScript((contextName, context, scriptable) -> {
             scriptable.put("MTRClientData", scriptable, new NativeJavaClass(scriptable, ClientData.class));

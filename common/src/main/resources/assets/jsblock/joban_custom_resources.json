@@ -65,6 +65,13 @@
       "fonts": "jsblock:pids_lcd",
       "hideRow": [false, false, false, false],
       "blacklist": ["pids_1a"]
+    },
+    {
+      "id": "pids_1a",
+      "name": "PIDS 1A",
+      "builtin": true,
+      "thumbnail": "jsblock:textures/gui/pids/thumbnail/pids_1a.png",
+      "scriptFiles": ["jsblock:scripts/builtin/pids_1a.js"]
     }
   ]
 }

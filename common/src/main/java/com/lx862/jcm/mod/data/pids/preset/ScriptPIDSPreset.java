@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ScriptPIDSPreset extends PIDSPresetBase {
-    private static final ResourceLocation DEFAULT_THUMBNAIL = Constants.id("textures/gui/pids_preview_js.png");
+    private static final ResourceLocation DEFAULT_THUMBNAIL = Constants.id("textures/gui/pids/thumbnail/generic_js.png");
     public final ParsedScript parsedScripts;
 
     public ScriptPIDSPreset(String id, String name, ResourceLocation thumbnail, List<String> blacklist, boolean builtin, ParsedScript parsedScripts) {

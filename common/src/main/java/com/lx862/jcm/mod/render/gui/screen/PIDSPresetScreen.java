@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.function.Consumer;
 
 public class PIDSPresetScreen extends TitledScreen implements RenderHelper, GuiHelper {
-    private static final ResourceLocation PIDS_PREVIEW_BASE = ResourceLocation.parse("jsblock:textures/gui/pids_preview.png");
+    private static final ResourceLocation PIDS_PREVIEW_BASE = ResourceLocation.parse("jsblock:textures/gui/pids/thumbnail/generic.png");
     private final WidgetBetterTextField searchBox;
     private final ListViewWidget listViewWidget;
     private final Consumer<String> callback;
