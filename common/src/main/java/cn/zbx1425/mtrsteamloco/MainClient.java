@@ -13,7 +13,6 @@ import cn.zbx1425.sowcer.util.DrawContext;
 import cn.zbx1425.sowcerext.reuse.AtlasManager;
 import cn.zbx1425.sowcerext.reuse.DrawScheduler;
 import cn.zbx1425.sowcerext.reuse.ModelManager;
-import com.lx862.mtrotp.MTROTPClient;
 import mtr.MTRClient;
 import mtr.loader.MTRRegistryClient;
 import mtr.item.ItemBlockClickingBase;
@@ -31,7 +30,6 @@ public class MainClient {
 	public static DrawContext drawContext = new DrawContext();
 
 	public static void init() {
-		MTROTPClient.init();
 		ClientConfig.load();
 		ShadersModHandler.init();
 

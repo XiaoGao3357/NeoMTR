@@ -24,13 +24,15 @@
 			"net.londonunderground.LUAddonFabric",
 			"com.lx862.mtrtm.TransitManagerFabric",
 			"com.lx862.mtrtdm.TrainDrivingModuleFabric",
-			"com.lx862.mtrticket.MTRTicketFabric"
+			"com.lx862.mtrticket.MTRTicketFabric",
+			"com.lx862.mtrotp.MTROTPFabric"
 		],
 		"client": [
 			"mtr.MTRFabricClient",
 			"com.lx862.jcm.JCMFabricClient",
 			"top.mcmtr.MSDMainFabricClient",
-			"net.londonunderground.LUAddonFabricClient"
+			"net.londonunderground.LUAddonFabricClient",
+			"com.lx862.mtrotp.MTROTPFabricClient"
 		],
 		"modmenu": [
 			"mtr.ModMenuConfig"
