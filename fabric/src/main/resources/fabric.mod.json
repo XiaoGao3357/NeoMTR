@@ -7,7 +7,8 @@
 	"authors": [
 		"Jonathan Ho",
 		"Zbx1425",
-		"LX86"
+		"AmberFrost",
+		"Dooji"
 	],
 	"contact": {
 		"sources": "https://github.com/DistrictOfJoban/NeoMTR"
@@ -23,8 +24,7 @@
 			"net.londonunderground.LUAddonFabric",
 			"com.lx862.mtrtm.TransitManagerFabric",
 			"com.lx862.mtrtdm.TrainDrivingModuleFabric",
-			"com.lx862.mtrticket.MTRTicketFabric",
-			"com.lx862.mtrsurveyor.MTRSurveyor"
+			"com.lx862.mtrticket.MTRTicketFabric"
 		],
 		"client": [
 			"mtr.MTRFabricClient",
