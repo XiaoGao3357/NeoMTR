@@ -22,9 +22,11 @@ import mtr.registry.Items;
 import mtr.render.MainRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
@@ -178,13 +180,14 @@ public class RailRenderDispatcher {
 
     public void drawRailNodes(Level level, DrawScheduler drawScheduler, Matrix4f viewMatrix) {
         if (isHoldingRailItemOrBrush) {
+            final Vec3 cameraPos = MainRenderer.getRenderCameraPos();
             HashSet<BlockPos> drawnNodes = new HashSet<>();
             for (Map.Entry<BlockPos, Map<BlockPos, Rail>> entryStart : ClientData.RAILS.entrySet()) {
                 for (Map.Entry<BlockPos, Rail> entryEnd : entryStart.getValue().entrySet()) {
                     if (drawnNodes.add(entryStart.getKey())) {
                         Matrix4f nodePose = viewMatrix.copy();
-                        nodePose.translate(entryStart.getKey().getX() + 0.5f,
-                                entryStart.getKey().getY(), entryStart.getKey().getZ() + 0.5f);
+                        nodePose.translate((float) (entryStart.getKey().getX() + 0.5 - cameraPos.x),
+                                (float) (entryStart.getKey().getY() - cameraPos.y), (float) (entryStart.getKey().getZ() + 0.5 - cameraPos.z));
                         nodePose.rotateY(-(float) entryEnd.getValue().facingStart.angleRadians + (float) Math.PI / 2);
                         final int light = LightTexture.pack(level.getBrightness(LightLayer.BLOCK, entryStart.getKey()),
                                 level.getBrightness(LightLayer.SKY, entryStart.getKey()));
@@ -192,8 +195,8 @@ public class RailRenderDispatcher {
                     }
                     if (drawnNodes.add(entryEnd.getKey())) {
                         Matrix4f nodePose = viewMatrix.copy();
-                        nodePose.translate(entryEnd.getKey().getX() + 0.5f,
-                                entryEnd.getKey().getY(), entryEnd.getKey().getZ() + 0.5f);
+                        nodePose.translate((float) (entryEnd.getKey().getX() + 0.5 - cameraPos.x),
+                                (float) (entryEnd.getKey().getY() - cameraPos.y), (float) (entryEnd.getKey().getZ() + 0.5 - cameraPos.z));
                         nodePose.rotateY(-(float) entryEnd.getValue().facingEnd.angleRadians + (float) Math.PI / 2);
                         final int light = LightTexture.pack(level.getBrightness(LightLayer.BLOCK, entryEnd.getKey()),
                                 level.getBrightness(LightLayer.SKY, entryEnd.getKey()));

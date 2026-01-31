@@ -28,12 +28,22 @@ public class BakedRail {
             final float interval = RailModelRegistry.getProperty(modelKey).repeatInterval;
             final float yOffset = RailModelRegistry.getProperty(modelKey).yOffset;
             rail.render((x1, z1, x2, z2, x3, z3, x4, z4, y1, y2) -> {
-                float xc = (float) ((x1 + x4) / 2);
-                float yc = (float) ((y1 + y2) / 2);
-                float zc = (float) ((z1 + z4) / 2);
+                double xc = (x1 + x4) / 2;
+                double yc = (y1 + y2) / 2;
+                double zc = (z1 + z4) / 2;
+
+                long chunkId = chunkIdFromWorldPos(Mth.floor(xc), Mth.floor(zc));
+                int originX = (int) (chunkId >> 32) << (4 + POS_SHIFT);
+                int originZ = (int) (chunkId & 0xFFFFFFFFL) << (4 + POS_SHIFT);
+
+                float localXc = (float) (xc - originX);
+                float localZc = (float) (zc - originZ);
+                float localX4 = (float) (x4 - originX);
+                float localZ4 = (float) (z4 - originZ);
+
                 coveredChunks
-                        .computeIfAbsent(chunkIdFromWorldPos(Mth.floor(xc), Mth.floor(zc)), ignored -> new ArrayList<>())
-                        .add(getLookAtMat(xc, yc + yOffset, zc, (float) x4, (float) y2 + yOffset, (float) z4, interval, reverse));
+                        .computeIfAbsent(chunkId, ignored -> new ArrayList<>())
+                        .add(getLookAtMat(localXc, (float) (yc + yOffset), localZc, localX4, (float) (y2 + yOffset), localZ4, interval, reverse));
             }, 0, 0);
         }
     }

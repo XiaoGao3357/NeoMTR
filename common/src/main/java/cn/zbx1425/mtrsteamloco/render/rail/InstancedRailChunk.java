@@ -1,6 +1,5 @@
 package cn.zbx1425.mtrsteamloco.render.rail;
 
-import cn.zbx1425.mtrsteamloco.Main;
 import cn.zbx1425.mtrsteamloco.data.RailModelRegistry;
 import cn.zbx1425.mtrsteamloco.render.ByteBufferOutputStream;
 import cn.zbx1425.sowcer.batch.BatchManager;
@@ -18,11 +17,13 @@ import cn.zbx1425.sowcer.vertex.VertAttrSrc;
 import cn.zbx1425.sowcer.vertex.VertAttrState;
 import cn.zbx1425.sowcer.vertex.VertAttrType;
 import com.google.common.io.LittleEndianDataOutputStream;
+import mtr.render.MainRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.phys.Vec3;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -79,7 +80,9 @@ public class InstancedRailChunk extends RailChunkBase {
                     final Vector3f lightPos = pieceMat.getTranslationPart();
                     yMin = Math.min(yMin, lightPos.y());
                     yMax = Math.max(yMax, lightPos.y());
-                    final BlockPos lightBlockPos = new BlockPos(Mth.floor(lightPos.x()), Mth.floor(lightPos.y() + 0.1), Mth.floor(lightPos.z()));
+                    final float worldX = lightPos.x() + originX;
+                    final float worldZ = lightPos.z() + originZ;
+                    final BlockPos lightBlockPos = new BlockPos(Mth.floor(worldX), Mth.floor(lightPos.y() + 0.1), Mth.floor(worldZ));
                     final int light = LightTexture.pack(world.getBrightness(LightLayer.BLOCK, lightBlockPos), world.getBrightness(LightLayer.SKY, lightBlockPos));
                     oStream.writeInt(light);
 
@@ -111,7 +114,16 @@ public class InstancedRailChunk extends RailChunkBase {
         if (instanceBuf.size < 1) return;
         VertAttrState attrState = new VertAttrState().setOverlayUVNoOverlay();
         if (!RailRenderDispatcher.isHoldingRailItem) attrState.setColor(-1);
-        batchManager.enqueue(vertArrays, new EnqueueProp(attrState), shaderProp);
+
+        final Vec3 cameraPos = MainRenderer.getRenderCameraPos();
+        final float relX = (float) (originX - cameraPos.x);
+        final float relY = (float) (-cameraPos.y);
+        final float relZ = (float) (originZ - cameraPos.z);
+
+        final Matrix4f viewMatrix = shaderProp.viewMatrix.copy();
+        viewMatrix.translate(relX, relY, relZ);
+
+        batchManager.enqueue(vertArrays, new EnqueueProp(attrState), new ShaderProp().setViewMatrix(viewMatrix));
     }
 
     @Override

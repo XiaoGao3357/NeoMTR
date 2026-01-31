@@ -49,6 +49,10 @@ public abstract class TrainRendererBase {
 		matrices.translate(0, MainRenderer.PLAYER_RENDER_OFFSET, 0);
 		final Player renderPlayer = world.getPlayerByUUID(playerId);
 		if (renderPlayer != null && (!playerId.equals(player.getUUID()) || camera.isDetached())) {
+			final Vec3 cameraPos = MainRenderer.getRenderCameraPos();
+			final double relX = playerPositionOffset.x - cameraPos.x;
+			final double relY = playerPositionOffset.y - cameraPos.y;
+			final double relZ = playerPositionOffset.z - cameraPos.z;
 			// Maybe this can stop the player from appearing moving and cape from flapping
 			renderPlayer.walkDistO = renderPlayer.walkDist;
 			renderPlayer.xCloak = renderPlayer.xCloakO = renderPlayer.xo;
@@ -56,8 +60,7 @@ public abstract class TrainRendererBase {
 			renderPlayer.zCloak = renderPlayer.zCloakO = renderPlayer.zo;
 			renderPlayer.walkAnimation.setSpeed(0);
 
-			MainRenderer.transformRelativeToCamera(matrices, playerPositionOffset.x, playerPositionOffset.y, playerPositionOffset.z);
-			entityRenderDispatcher.render(renderPlayer, 0, 0, 0, 0, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true), matrices, vertexConsumers, 0xF000F0);
+			entityRenderDispatcher.render(renderPlayer, relX, relY, relZ, 0, 1, matrices, vertexConsumers, 0xF000F0);
 		}
 		matrices.popPose();
 	}
@@ -86,20 +89,10 @@ public abstract class TrainRendererBase {
 		return posAverage;
 	}
 
-	public static BlockPos applyAverageTransformLocal(double x, double y, double z) {
-		final BlockPos realPos = BlockUtil.newBlockPos(camera.getPosition().add(x, y, z));
-		final BlockPos posAverage = BlockUtil.newBlockPos(x, y, z);
-		if (MainRenderer.shouldNotRender(realPos, UtilitiesClient.getRenderDistance() * (Config.trainRenderDistanceRatio() + 1), null)) {
-			return null;
-		}
-		matrices.pushPose();
-		return posAverage;
-	}
-
 	public static void applyTransform(TrainClient train, double x, double y, double z, float yaw, float pitch, float roll, boolean isBbModel) {
 		final TrainProperties trainProperties = TrainClientRegistry.getTrainProperties(train.trainId);
 		final boolean hasPitch = pitch < 0 ? train.transportMode.hasPitchAscending : train.transportMode.hasPitchDescending;
-		MainRenderer.transformRelativeToCamera(matrices, x, y, z);
+		MainRenderer.translateRelative(matrices, x, y, z);
 		matrices.translate(0, trainProperties.railSurfaceOffset, 0);
 		UtilitiesClient.rotateY(matrices, (float) Math.PI + yaw);
 		UtilitiesClient.rotateX(matrices, (hasPitch ? pitch : 0));

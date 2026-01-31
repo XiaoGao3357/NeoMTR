@@ -13,12 +13,13 @@ import cn.zbx1425.sowcer.vertex.VertAttrSrc;
 import cn.zbx1425.sowcer.vertex.VertAttrState;
 import cn.zbx1425.sowcer.vertex.VertAttrType;
 import cn.zbx1425.sowcerext.model.RawModel;
+import mtr.render.MainRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -58,7 +59,9 @@ public class MeshBuildingRailChunk extends RailChunkBase {
                 final Vector3f lightPos = pieceMat.getTranslationPart();
                 yMin = Math.min(yMin, lightPos.y());
                 yMax = Math.max(yMax, lightPos.y());
-                final BlockPos lightBlockPos = new BlockPos(Mth.floor(lightPos.x()), Mth.floor(lightPos.y() + 0.1), Mth.floor(lightPos.z()));
+                final float worldX = lightPos.x() + originX;
+                final float worldZ = lightPos.z() + originZ;
+                final BlockPos lightBlockPos = new BlockPos(Mth.floor(worldX), Mth.floor(lightPos.y() + 0.1), Mth.floor(worldZ));
                 final int light = LightTexture.pack(world.getBrightness(LightLayer.BLOCK, lightBlockPos), world.getBrightness(LightLayer.SKY, lightBlockPos));
                 combinedModel.appendTransformed(railModel, pieceMat, entry.getKey().color, light);
             }
@@ -75,9 +78,17 @@ public class MeshBuildingRailChunk extends RailChunkBase {
     @Override
     public void enqueue(BatchManager batchManager, ShaderProp shaderProp) {
         if (railModel == null) return;
-
         if (vertArrays == null) return;
-        VertAttrState attrState = new VertAttrState().setModelMatrix(shaderProp.viewMatrix).setOverlayUVNoOverlay();
+
+        final Vec3 cameraPos = MainRenderer.getRenderCameraPos();
+        final float relX = (float) (originX - cameraPos.x);
+        final float relY = (float) (-cameraPos.y);
+        final float relZ = (float) (originZ - cameraPos.z);
+
+        final Matrix4f modelMatrix = shaderProp.viewMatrix.copy();
+        modelMatrix.translate(relX, relY, relZ);
+
+        VertAttrState attrState = new VertAttrState().setModelMatrix(modelMatrix).setOverlayUVNoOverlay();
         if (!RailRenderDispatcher.isHoldingRailItem) attrState.setColor(-1);
         batchManager.enqueue(vertArrays, new EnqueueProp(attrState), ShaderProp.DEFAULT);
     }

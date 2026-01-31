@@ -25,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -132,7 +131,10 @@ public class ForgeUtilities {
 		@SubscribeEvent
 		public static void onRenderLevelStageEvent(RenderLevelStageEvent event) {
 			if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
-				MainRenderer.render(0, event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource());
+				PoseStack matrices = event.getPoseStack();
+				matrices.pushPose();
+				MainRenderer.render(0, matrices, Minecraft.getInstance().renderBuffers().bufferSource());
+				matrices.popPose();
 			} else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
 				Minecraft.getInstance().level.getProfiler().popPush("NTEBlockEntities");
 				BufferSourceProxy vertexConsumersProxy = new BufferSourceProxy(Minecraft.getInstance().renderBuffers().bufferSource());

@@ -4,10 +4,6 @@ import cn.zbx1425.mtrsteamloco.data.RailModelRegistry;
 import cn.zbx1425.sowcer.batch.BatchManager;
 import cn.zbx1425.sowcer.batch.ShaderProp;
 import cn.zbx1425.sowcer.math.Matrix4f;
-import mtr.data.Rail;
-import mtr.data.RailAngle;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -16,7 +12,6 @@ import net.minecraft.world.phys.Vec3;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public abstract class RailChunkBase implements Closeable {
 
@@ -25,6 +20,8 @@ public abstract class RailChunkBase implements Closeable {
     public HashMap<BakedRail, ArrayList<Matrix4f>> containingRails = new HashMap<>();
 
     public final String modelKey;
+    protected final int originX;
+    protected final int originZ;
 
     protected float modelYMin;
     protected float modelYMax;
@@ -36,6 +33,8 @@ public abstract class RailChunkBase implements Closeable {
     public RailChunkBase(long chunkId, String modelKey) {
         this.chunkId = chunkId;
         this.modelKey = modelKey;
+        originX = (int) (chunkId >> 32) << (4 + BakedRail.POS_SHIFT);
+        originZ = (int) (chunkId & 0xFFFFFFFFL) << (4 + BakedRail.POS_SHIFT);
         long boundary = RailModelRegistry.getProperty(modelKey).boundingBox;
         modelYMin = Float.intBitsToFloat((int)(boundary >> 32));
         modelYMax = Float.intBitsToFloat((int)(boundary & 0xFFFFFFFFL));

@@ -143,7 +143,7 @@ public class JonModelTrainRenderer extends TrainRendererBase implements IGui {
 
 	@Override
 	public void renderConnection(Vec3 prevPos1, Vec3 prevPos2, Vec3 prevPos3, Vec3 prevPos4, Vec3 thisPos1, Vec3 thisPos2, Vec3 thisPos3, Vec3 thisPos4, double x, double y, double z, float yaw, float pitch, float roll) {
-		final BlockPos posAverage = applyAverageTransformLocal(x, y, z);
+		final BlockPos posAverage = applyAverageTransform(x, y, z);
 		if (posAverage == null) {
 			return;
 		}
@@ -154,8 +154,6 @@ public class JonModelTrainRenderer extends TrainRendererBase implements IGui {
 		final int light = LightTexture.pack(world.getBrightness(LightLayer.BLOCK, posAverage), world.getBrightness(LightLayer.SKY, posAverage));
 
 		if (!gangwayConnectionId.isEmpty()) {
-			matrices.pushPose();
-//			MainRenderer.transformRelativeToCamera(matrices, x, y, z);
 			final VertexConsumer vertexConsumerExterior = vertexConsumers.getBuffer(MoreRenderLayers.getExterior(getConnectorTextureString(true, "exterior")));
 			drawTexture(matrices, vertexConsumerExterior, thisPos2, prevPos3, prevPos4, thisPos1, light);
 			drawTexture(matrices, vertexConsumerExterior, prevPos2, thisPos3, thisPos4, prevPos1, light);
@@ -168,7 +166,6 @@ public class JonModelTrainRenderer extends TrainRendererBase implements IGui {
 			drawTexture(matrices, vertexConsumerSide, prevPos3, thisPos2, thisPos1, prevPos4, lightOnLevel);
 			drawTexture(matrices, vertexConsumers.getBuffer(MoreRenderLayers.getInterior(getConnectorTextureString(true, "roof"))), prevPos2, thisPos3, thisPos2, prevPos3, lightOnLevel);
 			drawTexture(matrices, vertexConsumers.getBuffer(MoreRenderLayers.getInterior(getConnectorTextureString(true, "floor"))), prevPos4, thisPos1, thisPos4, prevPos1, lightOnLevel);
-			matrices.popPose();
 		}
 
 		if (trainProperties.isJacobsBogie) {
@@ -187,7 +184,7 @@ public class JonModelTrainRenderer extends TrainRendererBase implements IGui {
 			return;
 		}
 
-		final BlockPos posAverage = applyAverageTransformLocal(x, y, z);
+		final BlockPos posAverage = applyAverageTransform(x, y, z);
 		if (posAverage == null) {
 			return;
 		}
@@ -231,7 +228,13 @@ public class JonModelTrainRenderer extends TrainRendererBase implements IGui {
 	}
 
 	private static void drawTexture(PoseStack matrices, VertexConsumer vertexConsumer, Vec3 pos1, Vec3 pos2, Vec3 pos3, Vec3 pos4, int light) {
-		mtr.client.IDrawing.drawTexture(matrices, vertexConsumer, (float) pos1.x, (float) pos1.y, (float) pos1.z, (float) pos2.x, (float) pos2.y, (float) pos2.z, (float) pos3.x, (float) pos3.y, (float) pos3.z, (float) pos4.x, (float) pos4.y, (float) pos4.z, 0, 0, 1, 1, Direction.UP, -1, light);
+		final Vec3 cameraPos = MainRenderer.getRenderCameraPos();
+		mtr.client.IDrawing.drawTexture(matrices, vertexConsumer,
+				(float) (pos1.x - cameraPos.x), (float) (pos1.y - cameraPos.y), (float) (pos1.z - cameraPos.z),
+				(float) (pos2.x - cameraPos.x), (float) (pos2.y - cameraPos.y), (float) (pos2.z - cameraPos.z),
+				(float) (pos3.x - cameraPos.x), (float) (pos3.y - cameraPos.y), (float) (pos3.z - cameraPos.z),
+				(float) (pos4.x - cameraPos.x), (float) (pos4.y - cameraPos.y), (float) (pos4.z - cameraPos.z),
+				0, 0, 1, 1, Direction.UP, -1, light);
 	}
 
 	private static String resolvePath(String path) {
