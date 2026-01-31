@@ -5,6 +5,7 @@ import com.lx862.jcm.mod.data.KVPair;
 import com.lx862.jcm.mod.render.RenderHelper;
 import com.lx862.jcm.mod.render.text.*;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mtr.MTRClient;
 import mtr.data.IGui;
 import net.minecraft.client.renderer.MultiBufferSource;
 
@@ -83,7 +84,7 @@ public abstract class TextComponent extends PIDSComponent {
         if(split.isEmpty()) return "";
 
         // TODO: Client tick!
-        return split.get(((int) JCMServerStats.getGameTick() / SWITCH_LANG_DURATION) % split.size());
+        return split.get((int) ((MTRClient.getGameTick() / SWITCH_LANG_DURATION) % split.size()));
     }
 
     protected boolean isCjk(String str, boolean isTranslation) {
