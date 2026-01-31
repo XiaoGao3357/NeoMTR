@@ -25,6 +25,7 @@
 			"com.lx862.mtrtm.TransitManagerFabric",
 			"com.lx862.mtrtdm.TrainDrivingModuleFabric",
 			"com.lx862.mtrticket.MTRTicketFabric",
+			"com.lx862.logregator.LogregatorFabric",
 			"com.lx862.mtrotp.MTROTPFabric"
 		],
 		"client": [
@@ -42,6 +43,7 @@
 		"mtr.mixins.json",
 		"mtr-common.mixins.json",
 		"jsblock-common.mixins.json",
+		"logregator.mixins.json",
 		"mtrsteamloco.mixins.json",
 		"mtrotp.mixins.json",
 		"mtrtm-common.mixins.json",
