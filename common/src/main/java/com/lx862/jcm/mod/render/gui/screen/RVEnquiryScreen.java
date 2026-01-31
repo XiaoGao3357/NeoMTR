@@ -39,8 +39,8 @@ public class RVEnquiryScreen extends AnimatedScreen {
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float tickDelta) {
         super.renderBackground(guiGraphics, mouseX, mouseY, tickDelta);
 
-        int screenWidth = Minecraft.getInstance().getWindow().getScreenWidth();
-        int screenHeight = Minecraft.getInstance().getWindow().getScreenHeight();
+        int screenWidth = width;
+        int screenHeight = height;
 
         int baseWidth = 427;
         double scaledWidth = width;
