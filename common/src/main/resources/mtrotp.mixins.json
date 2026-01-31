@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.lx862.mtrotp.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "SidingMixin",
+    "TrainServerMixin"
+  ],
+  "client": [
+    "RailAccessorMixin",
+    "TrainAccessorMixin",
+    "TrainRendererBaseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

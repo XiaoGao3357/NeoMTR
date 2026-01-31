@@ -31,6 +31,9 @@ config = "mtr.mixins.json"
 config = "mtrsteamloco.mixins.json"
 
 [[mixins]]
+config = "mtrotp.mixins.json"
+
+[[mixins]]
 config = "mtr-common.mixins.json"
 
 [[mixins]]

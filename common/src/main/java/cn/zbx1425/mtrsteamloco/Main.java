@@ -4,6 +4,7 @@ import cn.zbx1425.mtrsteamloco.block.BlockEyeCandy;
 import cn.zbx1425.mtrsteamloco.block.BlockOneWayGate;
 import cn.zbx1425.mtrsteamloco.network.*;
 import com.google.gson.JsonParser;
+import com.lx862.mtrotp.MTROTP;
 import mtr.loader.MTRRegistry;
 import mtr.registry.CreativeModeTabs;
 import mtr.registry.MTRAddonRegistry;
@@ -65,6 +66,7 @@ public class Main {
 
 	public static void init(RegistriesWrapper registries) {
 		LOGGER.info("{} {} built at {}", BRAND, BuildConfig.MOD_VERSION, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.systemDefault()).format(BuildConfig.BUILD_TIME));
+		MTROTP.init();
 		if (enableRegistry) {
 			registries.registerBlockAndItem("eye_candy", BLOCK_EYE_CANDY, CreativeModeTabs.STATION_BUILDING_BLOCKS);
 			registries.registerBlockEntityType("eye_candy", BLOCK_ENTITY_TYPE_EYE_CANDY);

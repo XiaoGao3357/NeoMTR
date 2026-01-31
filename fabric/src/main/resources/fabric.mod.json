@@ -41,6 +41,7 @@
 		"mtr-common.mixins.json",
 		"jsblock-common.mixins.json",
 		"mtrsteamloco.mixins.json",
+		"mtrotp.mixins.json",
 		"mtrtm-common.mixins.json",
 		"msd-common.mixins.json",
 		"mtrtdm-common.mixins.json"

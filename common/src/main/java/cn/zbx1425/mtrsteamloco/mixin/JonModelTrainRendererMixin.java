@@ -1,9 +1,13 @@
 package cn.zbx1425.mtrsteamloco.mixin;
 
 import cn.zbx1425.mtrsteamloco.render.RenderUtil;
+import com.lx862.mtrotp.Util;
+import com.lx862.mtrotp.config.ClientConfig;
 import mtr.data.TrainClient;
 import mtr.render.JonModelTrainRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-
 @Mixin(value = JonModelTrainRenderer.class, remap = false)
 public class JonModelTrainRendererMixin {
 
@@ -21,7 +23,18 @@ public class JonModelTrainRendererMixin {
 
     @Inject(method = "renderCar", at = @At("HEAD"), remap = false, cancellable = true)
     public void renderCar(int carIndex, double x, double y, double z, float yaw, float pitch, float roll, boolean doorLeftOpen, boolean doorRightOpen, CallbackInfo ci) {
-        if (RenderUtil.shouldSkipRenderTrain(train)) ci.cancel();
+        if (RenderUtil.shouldSkipRenderTrain(train)) {
+            ci.cancel();
+            return;
+        }
+
+        if (ClientConfig.cullTrain) {
+            final AABB boundingBox = Util.getTrainBoundingBox(train, carIndex, train.spacing);
+            final Frustum frustum = ((LevelRendererAccessor) Minecraft.getInstance().levelRenderer).getCullingFrustum();
+            if (frustum != null && !frustum.isVisible(boundingBox)) {
+                ci.cancel();
+            }
+        }
     }
 
     @Inject(method = "renderConnection", at = @At("HEAD"), cancellable = true)
