@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ScriptDebugOverlay {
+    private static final double IDEAL_FRAMERATE = 60;
 
     public static void render(GuiGraphics vdStuff) {
         PoseStack matrices = vdStuff.pose();
@@ -53,7 +54,7 @@ public class ScriptDebugOverlay {
             for (AbstractScriptContext context : entry.getValue()) {
                 drawText(vdStuff, font,
                         String.format("#%08X (%.2f ms)", context.hashCode(), context.lastExecuteDurationMovingAverage / 1000000.0),
-                        10, y, 0xFFCCCCFF);
+                        10, y,  getColor(context.lastExecuteDurationMovingAverage / 1000000.0));
                 y += lineHeight;
                 for (Map.Entry<String, Object> debugInfo : context.debugInfo.entrySet()) {
                     Object value = debugInfo.getValue();
@@ -72,6 +73,16 @@ public class ScriptDebugOverlay {
         }
 
         matrices.popPose();
+    }
+
+    private static int getColor(double executionMs) {
+        if(executionMs > (1000/(IDEAL_FRAMERATE/2))) {
+            return 0xFFFF0000;
+        } else if(executionMs > (1000/IDEAL_FRAMERATE)) {
+            return 0xFFFFFF00;
+        } else {
+            return 0xFFCCCCFF;
+        }
     }
 
     private static void drawText(GuiGraphics guiGraphics, Font font, String text, int x, int y, int color) {

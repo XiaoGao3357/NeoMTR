@@ -56,8 +56,8 @@ public class ScriptManager {
         return this.classShutter;
     }
 
-    public ParsedScript parseScript(String contextName, List<ScriptContent> scripts) throws Exception {
-        return new ParsedScript(this, contextName, scripts);
+    public ParsedScript parseScript(String scriptName, String contextName, List<ScriptContent> scripts) throws Exception {
+        return new ParsedScript(this, scriptName, contextName, scripts);
     }
 
     /** Currently this checks and dispose dead script instances (i.e. Those that are no longer active).<br>

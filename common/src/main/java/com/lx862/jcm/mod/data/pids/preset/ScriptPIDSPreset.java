@@ -81,14 +81,14 @@ public class ScriptPIDSPreset extends PIDSPresetBase {
             }
         }
 
-        ParsedScript parsedScripts = JCMScripting.getScriptManager().parseScript("PIDS", scripts);
+        ParsedScript parsedScripts = JCMScripting.getScriptManager().parseScript("PIDS", id, scripts);
         return new ScriptPIDSPreset(id, name, thumbnail, blackList, builtin, parsedScripts);
     }
 
     @Override
     public void render(PIDSBlockEntity be, PoseStack poseStack, MultiBufferSource bufferSource, Level world, BlockPos pos, Direction facing, List<ScheduleEntry> arrivals, boolean[] rowHidden, float tickDelta, int x, int y, int width, int height) {
         PIDSWrapper pidsState = new PIDSWrapper(be, arrivals, width, height);
-        ScriptInstance<PIDSWrapper> scriptInstance = JCMScripting.getScriptManager().getInstanceManager().getInstance(new UniqueKey("jcm", "pids", getId(), pos), () -> new PIDSScriptInstance(be, getId(), parsedScripts, pidsState));
+        ScriptInstance<PIDSWrapper> scriptInstance = JCMScripting.getScriptManager().getInstanceManager().getInstance(new UniqueKey("jcm", "pids", getId(), pos), () -> new PIDSScriptInstance(be, parsedScripts, pidsState));
 
         if(scriptInstance instanceof PIDSScriptInstance) {
             PIDSScriptInstance pidsScriptInstance = (PIDSScriptInstance) scriptInstance;

@@ -7,21 +7,20 @@ import com.lx862.mtrscripting.core.ScriptInstance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PIDSScriptInstance extends ScriptInstance<PIDSWrapper> {
     private final PIDSBlockEntity blockEntity;
-    private final String presetId;
     public final List<ScriptResultCall> drawCalls;
 
-    public PIDSScriptInstance(PIDSBlockEntity blockEntity, String presetId, ParsedScript script, PIDSWrapper wrapperObject) {
-        super(new PIDSScriptContext(), script);
+    public PIDSScriptInstance(PIDSBlockEntity blockEntity, ParsedScript script, PIDSWrapper wrapperObject) {
+        super(new PIDSScriptContext(blockEntity.getPresetId()), script);
         setWrapperObject(wrapperObject);
         this.blockEntity = blockEntity;
-        this.presetId = presetId;
         this.drawCalls = new ArrayList<>();
     }
 
     public boolean shouldInvalidate() {
-        return blockEntity.isRemoved() || !blockEntity.getPresetId().equals(presetId);
+        return blockEntity.getLevel().getBlockEntity(blockEntity.getBlockPos()) == null || !Objects.equals(blockEntity.getPresetId(), getScriptContext().getName());
     }
 }

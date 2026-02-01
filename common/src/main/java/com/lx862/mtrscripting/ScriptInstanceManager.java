@@ -29,6 +29,10 @@ public class ScriptInstanceManager {
         return instances.get(id);
     }
 
+    public Map<UniqueKey, ScriptInstance> getInstances() {
+        return new HashMap<>(this.instances);
+    }
+
     public int clearDeadInstance() {
         int count = 0;
         for(Map.Entry<UniqueKey, ScriptInstance> entry : new HashMap<>(instances).entrySet()) {
