@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,11 +50,12 @@ public abstract class HorizontalWallAttached2Block extends DirectionalBlock impl
         return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
-        public BlockPos[] getAllPos(BlockState state, Level world, BlockPos pos) {
-            Direction facing = IBlock.getStatePropertySafe(state, FACING);
-            BlockPos otherPos = pos.relative(facing);
-            return new BlockPos[]{ pos, otherPos };
-        }
+    @Override
+    public BlockPos[] getAllPos(BlockState state, LevelReader world, BlockPos pos) {
+        Direction facing = IBlock.getStatePropertySafe(state, FACING);
+        BlockPos otherPos = pos.relative(facing);
+        return new BlockPos[]{ pos, otherPos };
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
