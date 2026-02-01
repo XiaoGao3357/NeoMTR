@@ -11,8 +11,9 @@ A:
 - - London Underground (The Tube)
 - - TransitManager
 - - TrainDrivingModule
+- - Logregator
+- - MTR-OTP
 - - MTR: Transport Ticket
-- - MTR: Surveyor Integration
 - Rain blocking in trains
 - Reduce distance effect for certain rendering elements (Railway Sign etc.)
 - Slight improvements of GUI (Dashboard, Config screen etc.)

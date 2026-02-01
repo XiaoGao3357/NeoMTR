@@ -13,7 +13,7 @@ public class ClientConfig {
     public static boolean dashboardLazyRender = true;
 
     public static void load(Path configDir) {
-        configPath = configDir.resolve("mtrotp_server.json");
+        configPath = configDir.resolve("mtrotp_client.json");
         if (!Files.exists(configPath)) {
             MTROTPClient.LOGGER.info("[MTR-OTP] Client config not found, generating one...");
             writeConfig();

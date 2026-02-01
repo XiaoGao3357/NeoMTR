@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MTROTPClient {
-    public static final Logger LOGGER = LoggerFactory.getLogger("MTROTPClient");
+    public static final Logger LOGGER = LoggerFactory.getLogger("MTR-OTP Client");
 
     public static void init() {
-        ClientConfig.load(Minecraft.getInstance().gameDirectory.toPath().resolve("config").resolve("mtrotp.json"));
+        ClientConfig.load(Minecraft.getInstance().gameDirectory.toPath().resolve("config"));
     }
 }

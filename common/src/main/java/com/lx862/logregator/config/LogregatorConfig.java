@@ -94,6 +94,7 @@ public class LogregatorConfig {
         Logregator.LOGGER.info("[Logregator] Writing Config...");
         final JsonObject jsonConfig = new JsonObject();
         try {
+            CONFIG_PATH.getParent().toFile().mkdirs();
             Files.write(CONFIG_PATH, Collections.singleton(new GsonBuilder().setPrettyPrinting().create().toJson(jsonConfig)));
         } catch (Exception e) {
             e.printStackTrace();

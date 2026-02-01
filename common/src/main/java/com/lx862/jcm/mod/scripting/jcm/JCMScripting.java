@@ -22,6 +22,7 @@ public class JCMScripting {
 
         scriptManager.getClassShutter().allowClass(ClassRule.parse("org.mtr.*")); // MTR 4
         scriptManager.getClassShutter().allowClass(ClassRule.parse("mtr.*")); // MTR 3
+        scriptManager.getClassShutter().allowClass(ClassRule.parse("net.minecraft.*")); // Obfuscated MC classes
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.jcm.*"));
         scriptManager.getClassShutter().allowClass(ClassRule.parse("com.lx862.jcm.mod.scripting.mtr.util.*"));
 

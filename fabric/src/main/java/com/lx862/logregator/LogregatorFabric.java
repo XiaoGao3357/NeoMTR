@@ -7,11 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 public class LogregatorFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        Logregator.modVersion = FabricLoader.getInstance()
-                .getModContainer("logregator")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse(null);
-        Logregator.initialize(FabricLoader.getInstance().getConfigDir(), cb -> {
+        Logregator.init("1.0.0", FabricLoader.getInstance().getConfigDir(), cb -> {
             CommandRegistrationCallback.EVENT.register((dispatcher, dedicated, third) -> cb.accept(dispatcher));
         });
     }
