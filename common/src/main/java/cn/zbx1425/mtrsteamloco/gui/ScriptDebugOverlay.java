@@ -19,6 +19,9 @@ import java.util.Map;
 
 public class ScriptDebugOverlay {
     private static final double IDEAL_FRAMERATE = 60;
+    private static final int COLOR_RED = 0xFFFF0000;
+    private static final int COLOR_BLUE = 0xFFCCCCFF;
+    private static final int COLOR_YELLOW = 0xFFFFFF00;
 
     public static void render(GuiGraphics vdStuff) {
         PoseStack matrices = vdStuff.pose();
@@ -40,14 +43,14 @@ public class ScriptDebugOverlay {
             ScriptHolder holder = entry.getKey();
             synchronized (holder) {
                 if (holder.failTime > 0) {
-                    drawText(vdStuff, font, holder.name + " FAILED", 0, y, 0xFFFF0000);
+                    drawText(vdStuff, font, holder.name + " FAILED", 0, y, COLOR_RED);
                     y += lineHeight;
                     for (String msgLine : Splitter.fixedLength(60).split(holder.failException.getMessage())) {
                         drawText(vdStuff, font, msgLine, 5, y, 0xFFFF8888);
                         y += lineHeight;
                     }
                 } else {
-                    drawText(vdStuff, font, holder.name, 0, y, 0xFFAAAAFF);
+                    drawText(vdStuff, font, holder.name, 0, y, COLOR_BLUE);
                     y += lineHeight;
                 }
             }
@@ -77,11 +80,11 @@ public class ScriptDebugOverlay {
 
     private static int getColor(double executionMs) {
         if(executionMs > (1000/(IDEAL_FRAMERATE/2))) {
-            return 0xFFFF0000;
+            return COLOR_RED;
         } else if(executionMs > (1000/IDEAL_FRAMERATE)) {
-            return 0xFFFFFF00;
+            return COLOR_YELLOW;
         } else {
-            return 0xFFCCCCFF;
+            return COLOR_BLUE;
         }
     }
 
