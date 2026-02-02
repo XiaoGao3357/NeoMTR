@@ -13,11 +13,13 @@ import com.lx862.mtrscripting.lib.org.mozilla.javascript.NativeJavaClass;
 import mtr.client.ClientData;
 
 public class JCMScripting {
-    private static final ScriptManager scriptManager = new ScriptManager();
+    private static ScriptManager scriptManager = new ScriptManager();
     /**
      * Called once when the mod entrypoint is invoked
      */
     public static void register() {
+        if(scriptManager == null) scriptManager = new ScriptManager();
+        scriptManager.getClassShutter().setEnabled(!JCMClient.getConfig().disableScriptingRestriction);
         ScriptingAPI.registerAddonVersion("jcm", Constants.MOD_VERSION);
 
         scriptManager.getClassShutter().allowClass(ClassRule.parse("org.mtr.*")); // MTR 4

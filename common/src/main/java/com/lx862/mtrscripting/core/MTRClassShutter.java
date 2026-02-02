@@ -1,5 +1,6 @@
 package com.lx862.mtrscripting.core;
 
+import com.lx862.jcm.mod.config.JCMClientConfig;
 import com.lx862.mtrscripting.api.ClassRule;
 import com.lx862.mtrscripting.lib.org.mozilla.javascript.ClassShutter;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -14,6 +15,8 @@ import java.util.Arrays;
  * Please use this wisely instead of blindly allowing classes for your convenience, we don't want a script to affect anything outside of MC.
  */
 public class MTRClassShutter implements ClassShutter {
+    /** Whether the class shutter is active or not. If false, it will allow all class through (Except itself) as if no restrictions is put in place. */
+    private boolean shutterEnabled;
     private final ObjectList<ClassRule> allowedScriptClasses = new ObjectArrayList<>();
     private final ObjectList<ClassRule> deniedScriptClasses = new ObjectArrayList<>();
 
@@ -39,6 +42,10 @@ public class MTRClassShutter implements ClassShutter {
         );
     }
 
+    public void setEnabled(boolean shutterEnabled) {
+        this.shutterEnabled = shutterEnabled;
+    }
+
     /**
      * By default, MTR Scripting does not allow loading any arbitrary java class for security reasons
      * Here, you can explicitly allow a class to be loaded.
@@ -55,15 +62,19 @@ public class MTRClassShutter implements ClassShutter {
 
     @Override
     public boolean visibleToScripts(String fullClassName) {
-        return fullClassName.startsWith("com.lx862.mtrscripting.util") || fullClassName.startsWith("com.lx862.mtrscripting.lib.org.mozilla") || fullClassName.startsWith("cn.zbx1425.sowcer.math") || isClassAllowed(fullClassName);
+        return !fullClassName.equals(MTRClassShutter.class.getName()) && !fullClassName.equals(JCMClientConfig.class.getName()) &&  fullClassName.startsWith("cn.zbx1425.sowcer.math") || isClassAllowed(fullClassName);
     }
 
-    private boolean isClassAllowed(String str) {
+    private boolean isClassAllowed(String className) {
+        if(!shutterEnabled) return true;
+        if(className.startsWith("com.lx862.mtrscripting.util")) return true;
+        if(className.startsWith("com.lx862.mtrscripting.lib.org.mozilla")) return true;
+
         for(ClassRule cs : deniedScriptClasses) {
-            if(cs.match(str)) return false;
+            if(cs.match(className)) return false;
         }
         for(ClassRule cs : allowedScriptClasses) {
-            if(cs.match(str)) return true;
+            if(cs.match(className)) return true;
         }
         return false;
     }
