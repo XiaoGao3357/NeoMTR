@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.ScoreHolder;
@@ -56,6 +57,15 @@ public class MinecraftClientUtil {
 
     public static int lightLevelAt(Vector3f pos) {
         return Math.min(blockLightAt(pos), skyLightAt(pos));
+    }
+
+    public static Vector3f playerPos() {
+        Vec3 pos = Minecraft.getInstance().player.position();
+        return new Vector3f((float)pos.x, (float)pos.y, (float)pos.z);
+    }
+
+    public static Vector3f playerBlockPos() {
+        return JCMUtil.blockPosToVector3f(Minecraft.getInstance().player.blockPosition());
     }
 
     public static boolean isHoldingItem(String id) {
