@@ -58,12 +58,12 @@ public class DestinationMessageComponent extends TextComponent {
         String customMessage = customMessageOverride == null ? "" : customMessageOverride;
         final int languageTicks = (int) Math.floor(MTRClient.getGameTick()) / TextComponent.SWITCH_LANG_DURATION;
         final String[] destinationSplit;
-        final String[] customMessageSplit = customMessage.split("\\|");
-        final String[] tempDestinationSplit = destination.split("\\|");
+        final String[] customMessageSplit = customMessage.split("\\|", -1);
+        final String[] tempDestinationSplit = destination.split("\\|", -1);
         if (getRouteNumber(route).isEmpty()) {
             destinationSplit = tempDestinationSplit;
         } else {
-            final String[] tempNumberSplit = getRouteNumber(route).split("\\|");
+            final String[] tempNumberSplit = getRouteNumber(route).split("\\|", -1);
             int destinationIndex = 0;
             int numberIndex = 0;
             final ObjectArrayList<String> newDestinations = new ObjectArrayList<>();
