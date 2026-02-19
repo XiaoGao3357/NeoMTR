@@ -1,8 +1,10 @@
 package com.lx862.jcm.mod.util;
 
+import cn.zbx1425.sowcer.math.Vector3f;
 import com.lx862.jcm.mod.Constants;
 import mtr.registry.Items;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -104,5 +106,9 @@ public class JCMUtil {
 
     public static void executeOnClientThread(Runnable runnable) {
         Minecraft.getInstance().execute(runnable);
+    }
+
+    public static BlockPos vector3fToBlockPos(Vector3f vec3f) {
+        return vec3f.toBlockPos();
     }
 }
