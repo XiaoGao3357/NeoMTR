@@ -124,8 +124,8 @@ public class ParsedScript {
         });
     }
 
-    public void invokeCreateFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
-        invokeFunctions(instance, createFunctions, () -> {
+    public Future<?> invokeCreateFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
+        return invokeFunctions(instance, createFunctions, () -> {
             instance.setCreateFunctionInvoked();
             finishCallback.run();
         });
@@ -135,7 +135,11 @@ public class ParsedScript {
         if(instance.shouldInvalidate() || instance.scriptTask != null && !instance.scriptTask.isDone()) {
             return;
         }
-        instance.scriptTask = invokeFunctions(instance, renderFunctions, finishCallback);
+        if(instance.isCreateFunctionInvoked()) {
+            instance.scriptTask = invokeFunctions(instance, renderFunctions, finishCallback);
+        } else {
+            instance.scriptTask = invokeCreateFunctions(instance, () -> {});
+        }
     }
 
     public Future<?> invokeDisposeFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
