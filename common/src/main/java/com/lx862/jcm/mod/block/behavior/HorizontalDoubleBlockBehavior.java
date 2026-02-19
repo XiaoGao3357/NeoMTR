@@ -25,13 +25,12 @@ public interface HorizontalDoubleBlockBehavior {
         world.setBlockAndUpdate(pos.relative(directionToPlace), state.setValue(isLeft, false));
     }
 
-    static boolean blockIsValid(BlockPos pos, BlockState state, LevelAccessor world, boolean thisBlockIsLeftPart) {
+    static boolean blockIsValid(BlockPos pos, BlockState state, Direction updateFrom, LevelAccessor world, boolean thisBlockIsLeftPart) {
         Direction dir = IBlock.getStatePropertySafe(state, FACING);
-        boolean checkLeft = !thisBlockIsLeftPart;
-
-        BlockPos neighbourPos = checkLeft ? pos.relative(dir.getCounterClockWise()) : pos.relative(dir.getClockWise());
+        Direction checkDir = thisBlockIsLeftPart ? dir.getClockWise() : dir.getCounterClockWise();
+        BlockPos neighbourPos = pos.relative(checkDir);
         BlockState neighbourState = world.getBlockState(neighbourPos);
-        return neighbourState.is(state.getBlock());
+        return !checkDir.equals(updateFrom) || neighbourState.is(state.getBlock());
     }
 
     static void onPlaced(Level world, BlockState state, BlockPos placedPos) {
