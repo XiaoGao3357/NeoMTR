@@ -1,14 +1,12 @@
 package com.lx862.jcm.mod.scripting.jcm.pids;
 
 import com.lx862.jcm.mod.block.entity.PIDSBlockEntity;
-import com.lx862.jcm.mod.util.JCMUtil;
+import com.lx862.mtrscripting.util.Vector3dWrapper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import cn.zbx1425.sowcer.math.Vector3f;
 import mtr.client.ClientData;
 import mtr.data.RailwayData;
 import mtr.data.ScheduleEntry;
 import mtr.data.Station;
-import net.minecraft.core.BlockPos;
 
 import java.util.List;
 import java.util.Set;
@@ -30,12 +28,8 @@ public class PIDSWrapper {
         this.arrivalsWrapper = new ArrivalsWrapper(arrivalsResponse);
     }
 
-    public Vector3f pos() {
-        return JCMUtil.blockPosToVector3f(be.getBlockPos());
-    }
-
-    public BlockPos blockPos() {
-        return be.getBlockPos();
+    public Vector3dWrapper blockPos() {
+        return new Vector3dWrapper(be.getBlockPos());
     }
 
     public boolean isRowHidden(int i) {

@@ -2,8 +2,6 @@ package com.lx862.mtrscripting.util;
 
 /* From https://github.com/zbx1425/mtr-nte/blob/master/common/src/main/java/cn/zbx1425/mtrsteamloco/render/scripting/util/MinecraftClientUtil.java */
 
-import cn.zbx1425.sowcer.math.Vector3f;
-import com.lx862.jcm.mod.util.JCMUtil;
 import com.mojang.text2speech.Narrator;
 import mtr.mappings.Text;
 import net.minecraft.client.Minecraft;
@@ -12,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.ScoreHolder;
@@ -31,9 +28,9 @@ public class MinecraftClientUtil {
                 && Minecraft.getInstance().level.isThundering();
     }
 
-    public static boolean worldIsRainingAt(Vector3f pos) {
+    public static boolean worldIsRainingAt(Vector3dWrapper pos) {
         return Minecraft.getInstance().level != null
-                && Minecraft.getInstance().level.isRainingAt(pos.toBlockPos());
+                && Minecraft.getInstance().level.isRainingAt(pos.rawBlockPos());
     }
 
     public static int worldDayTime() {
@@ -47,25 +44,24 @@ public class MinecraftClientUtil {
         });
     }
 
-    public static int blockLightAt(Vector3f pos) {
-        return Minecraft.getInstance().level.getBrightness(LightLayer.BLOCK, JCMUtil.vector3fToBlockPos(pos));
+    public static int blockLightAt(Vector3dWrapper pos) {
+        return Minecraft.getInstance().level.getBrightness(LightLayer.BLOCK, pos.rawBlockPos());
     }
 
-    public static int skyLightAt(Vector3f pos) {
-        return Minecraft.getInstance().level.getBrightness(LightLayer.SKY, JCMUtil.vector3fToBlockPos(pos));
+    public static int skyLightAt(Vector3dWrapper pos) {
+        return Minecraft.getInstance().level.getBrightness(LightLayer.SKY, pos.rawBlockPos());
     }
 
-    public static int lightLevelAt(Vector3f pos) {
+    public static int lightLevelAt(Vector3dWrapper pos) {
         return Math.min(blockLightAt(pos), skyLightAt(pos));
     }
 
-    public static Vector3f playerPos() {
-        Vec3 pos = Minecraft.getInstance().player.position();
-        return new Vector3f((float)pos.x, (float)pos.y, (float)pos.z);
+    public static Vector3dWrapper playerPos() {
+        return new Vector3dWrapper((float) Minecraft.getInstance().player.position().x, (float) Minecraft.getInstance().player.position().y, (float) Minecraft.getInstance().player.position().z);
     }
 
-    public static Vector3f playerBlockPos() {
-        return JCMUtil.blockPosToVector3f(Minecraft.getInstance().player.blockPosition());
+    public static Vector3dWrapper playerBlockPos() {
+        return new Vector3dWrapper(Minecraft.getInstance().player.blockPosition());
     }
 
     public static boolean isHoldingItem(String id) {
