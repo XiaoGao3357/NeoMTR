@@ -1,5 +1,7 @@
 package com.lx862.mtrscripting.util;
 
+import mtr.block.IBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -21,6 +23,10 @@ public class VoxelShapeWrapper {
 
     public static VoxelShapeWrapper create(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         return new VoxelShapeWrapper(Block.box(minX, minY, minZ, maxX, maxY, maxZ));
+    }
+
+    public static VoxelShapeWrapper create(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Direction facing) {
+        return new VoxelShapeWrapper(IBlock.getVoxelShapeByDirection(minX, minY, minZ, maxX, maxY, maxZ, facing));
     }
 
     public VoxelShapeWrapper combine(VoxelShapeWrapper other) {

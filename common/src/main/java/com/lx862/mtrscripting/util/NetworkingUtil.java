@@ -1,5 +1,6 @@
 package com.lx862.mtrscripting.util;
 
+import com.lx862.jcm.mod.JCMClient;
 import org.apache.commons.io.IOUtils;
 import com.lx862.mtrscripting.lib.org.mozilla.javascript.NativeObject;
 
@@ -50,6 +51,9 @@ public class NetworkingUtil {
     private static void processRequestObject(NativeObject requestObject, HttpURLConnection connection) throws IOException {
         String body = null;
 
+        // Default UA
+        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
+
         if(requestObject != null) {
             if(requestObject.containsKey("method")) {
                 connection.setRequestMethod((String)requestObject.get("method"));
@@ -84,8 +88,10 @@ public class NetworkingUtil {
             }
         }
 
-        // Override User-Agent
-        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
+        // Preserve a user-supplied User-Agent when scripting restrictions are disabled.
+        if(!JCMClient.getConfig().disableScriptingRestriction) {
+            connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
+        }
 
         if(body != null) {
             byte[] bodyByte = body.getBytes();
