@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
@@ -23,6 +24,7 @@ public class ParsedScript {
     private final ScriptManager scriptManager;
     private final Scriptable scope;
     private final TimingUtil timingUtil;
+    private final ExecutorService executorService;
     private Exception capturedScriptException = null;
     private long lastFailedTime = -1;
 
@@ -30,6 +32,7 @@ public class ParsedScript {
         this.displayName = displayName;
         this.scriptManager = scriptManager;
         this.timingUtil = new TimingUtil();
+        this.executorService = scriptManager.getDesignatedScriptExecutor();
         this.createFunctions = new ArrayList<>();
         this.renderFunctions = new ArrayList<>();
         this.disposeFunctions = new ArrayList<>();
@@ -104,7 +107,7 @@ public class ParsedScript {
             return null;
         }
 
-        return scriptManager.submitScriptTask(() -> {
+        return scriptManager.submitScriptTask(executorService, () -> {
             if(duringFailCooldown()) return;
 
             timingUtil.prepareForScript(scriptInstance);

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,14 +20,19 @@ import java.util.concurrent.Future;
 public class ScriptManager {
     public static final Logger LOGGER = LogManager.getLogger("JCM Scripting");
     private static final ObjectList<TriConsumer<String, Context, Scriptable>> onParseScriptCallback = new ObjectArrayList<>();
+    private static final int EXECUTOR_AMOUNT = 4;
     private final MTRClassShutter classShutter;
 
     private final ScriptInstanceManager instanceManager;
-    private ExecutorService scriptThread;
+    private final List<ExecutorService> scriptExecutors;
+    private int nextScriptExecutor = 0;
 
     public ScriptManager() {
         this.instanceManager = new ScriptInstanceManager();
-        this.scriptThread = Executors.newFixedThreadPool(4);
+        this.scriptExecutors = new ArrayList<>();
+        for (int i = 0; i < EXECUTOR_AMOUNT; i++) {
+            this.scriptExecutors.add(Executors.newFixedThreadPool(1));
+        }
         this.classShutter = new MTRClassShutter();
     }
 
@@ -60,6 +66,12 @@ public class ScriptManager {
         return new ParsedScript(this, scriptName, contextName, scripts);
     }
 
+    public ExecutorService getDesignatedScriptExecutor() {
+        final ExecutorService executor = scriptExecutors.get(nextScriptExecutor);
+        nextScriptExecutor = (nextScriptExecutor + 1) % scriptExecutors.size();
+        return executor;
+    }
+
     /** Currently this checks and dispose dead script instances (i.e. Those that are no longer active).<br>
      * This should be called from time to time. */
     public void tick() {
@@ -70,12 +82,18 @@ public class ScriptManager {
      * This should be called on resource reload */
     public void reset() {
         instanceManager.reset();
-        scriptThread.shutdownNow();
-        scriptThread = Executors.newFixedThreadPool(4);
+        for (ExecutorService scriptExecutor : scriptExecutors) {
+            scriptExecutor.shutdownNow();
+        }
+        scriptExecutors.clear();
+        for (int i = 0; i < EXECUTOR_AMOUNT; i++) {
+            scriptExecutors.add(Executors.newFixedThreadPool(1));
+        }
+        nextScriptExecutor = 0;
     }
 
     /** Submit a task to the script thread executor */
-    public Future<?> submitScriptTask(Runnable runnable) {
-        return scriptThread.submit(runnable);
+    public Future<?> submitScriptTask(ExecutorService executorService, Runnable runnable) {
+        return executorService.submit(runnable);
     }
 }
