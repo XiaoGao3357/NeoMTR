@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 
 public class ScriptManager {
     public static final Logger LOGGER = LogManager.getLogger("JCM Scripting");
-    private static final ObjectList<TriConsumer<String, Context, Scriptable>> onParseScriptCallback = new ObjectArrayList<>();
+    private final ObjectList<TriConsumer<String, Context, Scriptable>> onParseScriptCallback = new ObjectArrayList<>();
     private static final int EXECUTOR_AMOUNT = 4;
     private final MTRClassShutter classShutter;
 
