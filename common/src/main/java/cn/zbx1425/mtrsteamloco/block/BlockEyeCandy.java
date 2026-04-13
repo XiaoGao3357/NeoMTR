@@ -5,12 +5,14 @@ import cn.zbx1425.mtrsteamloco.network.PacketScreen;
 import cn.zbx1425.mtrsteamloco.render.rail.RailRenderDispatcher;
 import cn.zbx1425.mtrsteamloco.render.scripting.eyecandy.EyeCandyScriptContext;
 import cn.zbx1425.sowcer.math.Vector3f;
+import mtr.block.IBlock;
 import mtr.mappings.BlockDirectionalMapper;
 import mtr.mappings.BlockEntityClientSerializableMapper;
 import mtr.mappings.BlockEntityMapper;
 import mtr.mappings.EntityBlockMapper;
 import mtr.registry.Items;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -136,6 +138,10 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
 
         public Vector3f getWorldPosVector3f() {
             return new Vector3f(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ());
+        }
+
+        public Direction facing() {
+            return IBlock.getStatePropertySafe(this.getBlockState(), BlockEyeCandy.FACING);
         }
     }
 }
