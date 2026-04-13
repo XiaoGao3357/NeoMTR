@@ -26,7 +26,7 @@ public class ScriptManager {
 
     public ScriptManager() {
         this.instanceManager = new ScriptInstanceManager();
-        this.scriptThread = Executors.newSingleThreadExecutor();
+        this.scriptThread = Executors.newFixedThreadPool(4);
         this.classShutter = new MTRClassShutter();
     }
 
@@ -71,7 +71,7 @@ public class ScriptManager {
     public void reset() {
         instanceManager.reset();
         scriptThread.shutdownNow();
-        scriptThread = Executors.newSingleThreadExecutor();
+        scriptThread = Executors.newFixedThreadPool(4);
     }
 
     /** Submit a task to the script thread executor */
