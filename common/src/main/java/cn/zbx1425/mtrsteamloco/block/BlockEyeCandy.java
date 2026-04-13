@@ -2,6 +2,7 @@ package cn.zbx1425.mtrsteamloco.block;
 
 import cn.zbx1425.mtrsteamloco.Main;
 import cn.zbx1425.mtrsteamloco.network.PacketScreen;
+import cn.zbx1425.mtrsteamloco.render.rail.RailRenderDispatcher;
 import cn.zbx1425.mtrsteamloco.render.scripting.eyecandy.EyeCandyScriptContext;
 import cn.zbx1425.sowcer.math.Vector3f;
 import mtr.mappings.BlockDirectionalMapper;
@@ -15,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,6 +25,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +44,20 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (!RailRenderDispatcher.isHoldingBrush) {
+            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+            if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                VoxelShape outlineShape = blockEntityEyeCandy.scriptContext.getOutlineShape();
+                if (outlineShape != null) {
+                    return outlineShape;
+                }
+            }
+        }
+        return super.getShape(state, blockGetter, pos, collisionContext);
     }
 
     @Override

@@ -3,16 +3,19 @@ package cn.zbx1425.mtrsteamloco.render.scripting.eyecandy;
 import cn.zbx1425.mtrsteamloco.block.BlockEyeCandy;
 import cn.zbx1425.mtrsteamloco.render.scripting.AbstractScriptContext;
 import cn.zbx1425.mtrsteamloco.render.scripting.util.DynamicModelHolder;
+import com.lx862.mtrscripting.util.VoxelShapeWrapper;
 import cn.zbx1425.sowcer.math.Matrices;
 import cn.zbx1425.sowcer.math.Matrix4f;
 import cn.zbx1425.sowcerext.model.ModelCluster;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class EyeCandyScriptContext extends AbstractScriptContext {
 
     public BlockEyeCandy.BlockEntityEyeCandy entity;
     private final EyecandyEvents events;
+    private VoxelShapeWrapper outlineShape;
 
     public EyeCandyDrawCalls scriptResult;
     private EyeCandyDrawCalls scriptResultWriting;
@@ -22,10 +25,19 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         scriptResultWriting = new EyeCandyDrawCalls();
         this.entity = entity;
         this.events = new EyecandyEvents();
+        this.outlineShape = null;
     }
 
     public EyecandyEvents events() {
         return events;
+    }
+
+    public VoxelShape getOutlineShape() {
+        return outlineShape == null ? null : outlineShape.impl();
+    }
+
+    public void setOutlineShape(VoxelShapeWrapper outlineShape) {
+        this.outlineShape = outlineShape;
     }
 
     @Override
