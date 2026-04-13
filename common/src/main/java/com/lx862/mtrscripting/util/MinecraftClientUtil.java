@@ -76,6 +76,10 @@ public class MinecraftClientUtil {
         return score == null ? null : score.get();
     }
 
+    public static boolean gamePaused() {
+        return Minecraft.getInstance().isPaused();
+    }
+
     public static void displayMessage(String message, boolean actionBar) {
         final Player player = Minecraft.getInstance().player;
         if (player != null) {
