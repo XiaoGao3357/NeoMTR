@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "compat.MappedRegistryMixin",
+    "modded.BlockPIDSPoleMixin",
     "modded.MixinTicketSystem"
   ],
   "injectors": {
