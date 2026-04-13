@@ -64,15 +64,19 @@ public class MinecraftClientUtil {
         return new Vector3dWrapper(Minecraft.getInstance().player.blockPosition());
     }
 
+    public static String playerName() {
+        return Minecraft.getInstance().player.getGameProfile().getName();
+    }
+
     public static boolean isHoldingItem(String id) {
         ResourceLocation itemId = ResourceLocation.tryParse(id);
         Optional<Item> itm = itemId == null ? Optional.empty() : BuiltInRegistries.ITEM.getOptional(itemId);
         return itm.map(item -> Minecraft.getInstance().player.isHolding(item)).orElse(false);
     }
 
-    public static Integer getScoreboardScore(String objectiveName) {
+    public static Integer getScoreboardScore(String objectiveName, String playerName) {
         Objective objective = Minecraft.getInstance().level.getScoreboard().getObjective(objectiveName);
-        ScoreAccess score = objective == null ? null : Minecraft.getInstance().level.getScoreboard().getOrCreatePlayerScore(ScoreHolder.forNameOnly(Minecraft.getInstance().player.getGameProfile().getName()), objective);
+        ScoreAccess score = objective == null ? null : Minecraft.getInstance().level.getScoreboard().getOrCreatePlayerScore(ScoreHolder.forNameOnly(playerName), objective);
         return score == null ? null : score.get();
     }
 
