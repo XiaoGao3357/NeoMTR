@@ -143,5 +143,18 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
         public Direction facing() {
             return IBlock.getStatePropertySafe(this.getBlockState(), BlockEyeCandy.FACING);
         }
+
+        public int redstoneLevel() {
+            Level level = getLevel();
+            if (level == null) {
+                return 0;
+            }
+            int highestRedstoneLevel = 0;
+
+            for (Direction direction : Direction.values()) {
+                highestRedstoneLevel = Math.max(highestRedstoneLevel, level.hasSignal(getBlockPos(), direction) ? 15 : 0);
+            }
+            return highestRedstoneLevel;
+        }
     }
 }
