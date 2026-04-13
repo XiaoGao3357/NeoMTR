@@ -22,12 +22,14 @@ public class ParsedScript {
     private final List<Function> disposeFunctions;
     private final ScriptManager scriptManager;
     private final Scriptable scope;
+    private final TimingUtil timingUtil;
     private Exception capturedScriptException = null;
     private long lastFailedTime = -1;
 
     public ParsedScript(ScriptManager scriptManager, String displayName, String contextName, List<ScriptContent> scripts) throws Exception {
         this.displayName = displayName;
         this.scriptManager = scriptManager;
+        this.timingUtil = new TimingUtil();
         this.createFunctions = new ArrayList<>();
         this.renderFunctions = new ArrayList<>();
         this.disposeFunctions = new ArrayList<>();
@@ -68,13 +70,13 @@ public class ParsedScript {
         }
     }
 
-    private static void initBasicContextVariables(Scriptable scope) throws NoSuchMethodException {
+    private void initBasicContextVariables(Scriptable scope) throws NoSuchMethodException {
         scope.put("include", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("includeScript", Object.class), "includeScript"));
         scope.put("print", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("print", Object[].class), "print"));
         scope.put("Resources", scope, new NativeJavaClass(scope, ScriptResourceUtil.class));
         scope.put("GraphicsTexture", scope, new NativeJavaClass(scope, GraphicsTexture.class));
 
-        scope.put("Timing", scope, new NativeJavaClass(scope, TimingUtil.class));
+        scope.put("Timing", scope, new NativeJavaObject(scope, timingUtil, TimingUtil.class));
         scope.put("StateTracker", scope, new NativeJavaClass(scope, StateTracker.class));
         scope.put("CycleTracker", scope, new NativeJavaClass(scope, CycleTracker.class));
         scope.put("RateLimit", scope, new NativeJavaClass(scope, RateLimit.class));
@@ -105,7 +107,7 @@ public class ParsedScript {
         return scriptManager.submitScriptTask(() -> {
             if(duringFailCooldown()) return;
 
-            TimingUtil.prepareForScript(scriptInstance);
+            timingUtil.prepareForScript(scriptInstance);
             try {
                 Scriptable scope = getScope();
                 Context cx = Context.enter();
