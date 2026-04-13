@@ -44,6 +44,12 @@ public class ScriptedCustomTrains implements IResourcePackCreatorProperties, ICu
 
                         ScriptHolder scriptContext = new ScriptHolder();
                         Map<ResourceLocation, String> scripts = new Object2ObjectArrayMap<>();
+                        if (jsonObject.has("script_input")) {
+                            scripts.put(
+                                    ResourceLocation.fromNamespaceAndPath("mtrsteamloco", "script_input/train/" + trainId),
+                                    "const SCRIPT_INPUT = " + jsonObject.get("script_input") + ";"
+                            );
+                        }
                         if (jsonObject.has("script_texts")) {
                             JsonArray scriptTexts = jsonObject.get("script_texts").getAsJsonArray();
                             for (int i = 0; i < scriptTexts.size(); i++) {
