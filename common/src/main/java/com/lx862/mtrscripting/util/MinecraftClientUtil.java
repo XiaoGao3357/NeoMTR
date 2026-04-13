@@ -6,6 +6,7 @@ import com.mojang.text2speech.Narrator;
 import mtr.mappings.Text;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -105,10 +106,18 @@ public class MinecraftClientUtil {
     }
 
     public static void displayMessage(String message, boolean actionBar) {
+        displayMessage(Text.literal(message), actionBar);
+    }
+
+    public static void displayMessage(VanillaTextWrapper vanillaTextWrapper, boolean actionBar) {
+        displayMessage(vanillaTextWrapper.impl(), actionBar);
+    }
+
+    private static void displayMessage(MutableComponent text, boolean actionBar) {
         final Player player = Minecraft.getInstance().player;
         if (player != null) {
             Minecraft.getInstance().execute(() -> {
-                player.displayClientMessage(Text.literal(message), actionBar);
+                player.displayClientMessage(text, actionBar);
             });
         }
     }
