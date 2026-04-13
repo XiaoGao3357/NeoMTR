@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,6 +61,20 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
             }
         }
         return super.getShape(state, blockGetter, pos, collisionContext);
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (!RailRenderDispatcher.isHoldingBrush) {
+            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+            if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                VoxelShape collisionShape = blockEntityEyeCandy.scriptContext.getCollisionShape();
+                if (collisionShape != null) {
+                    return collisionShape;
+                }
+            }
+        }
+        return Shapes.empty();
     }
 
     @Override

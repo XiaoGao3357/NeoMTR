@@ -16,6 +16,7 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
     public BlockEyeCandy.BlockEntityEyeCandy entity;
     private final EyecandyEvents events;
     private VoxelShapeWrapper outlineShape;
+    private VoxelShapeWrapper collisionShape;
 
     public EyeCandyDrawCalls scriptResult;
     private EyeCandyDrawCalls scriptResultWriting;
@@ -26,6 +27,7 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         this.entity = entity;
         this.events = new EyecandyEvents();
         this.outlineShape = null;
+        this.collisionShape = null;
     }
 
     public EyecandyEvents events() {
@@ -36,8 +38,19 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         return outlineShape == null ? null : outlineShape.impl();
     }
 
+    public VoxelShape getCollisionShape() {
+        return collisionShape == null ? null : collisionShape.impl();
+    }
+
     public void setOutlineShape(VoxelShapeWrapper outlineShape) {
         this.outlineShape = outlineShape;
+    }
+
+    public void setCollisionShape(VoxelShapeWrapper collisionShape) {
+        if (collisionShape.impl().bounds().maxY > 1.5) {
+            throw new IllegalStateException("Collision shape must not be larger than 1.5 blocks (24 unit)!");
+        }
+        this.collisionShape = collisionShape;
     }
 
     @Override
