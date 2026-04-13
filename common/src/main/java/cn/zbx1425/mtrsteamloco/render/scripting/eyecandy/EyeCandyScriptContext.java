@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundEvent;
 public class EyeCandyScriptContext extends AbstractScriptContext {
 
     public BlockEyeCandy.BlockEntityEyeCandy entity;
+    private final EyecandyEvents events;
 
     public EyeCandyDrawCalls scriptResult;
     private EyeCandyDrawCalls scriptResultWriting;
@@ -20,6 +21,11 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         scriptResult = new EyeCandyDrawCalls();
         scriptResultWriting = new EyeCandyDrawCalls();
         this.entity = entity;
+        this.events = new EyecandyEvents();
+    }
+
+    public EyecandyEvents events() {
+        return events;
     }
 
     @Override

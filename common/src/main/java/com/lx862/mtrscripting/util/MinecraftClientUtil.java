@@ -84,6 +84,26 @@ public class MinecraftClientUtil {
         return Minecraft.getInstance().isPaused();
     }
 
+    public static ItemStackWrapper mainHandItem() {
+        ItemStackWrapper itemStackWrapper = new ItemStackWrapper(Minecraft.getInstance().player.getMainHandItem());
+        return itemStackWrapper.empty() ? null : itemStackWrapper;
+    }
+
+    public static ItemStackWrapper offHandItem() {
+        ItemStackWrapper itemStackWrapper = new ItemStackWrapper(Minecraft.getInstance().player.getOffhandItem());
+        return itemStackWrapper.empty() ? null : itemStackWrapper;
+    }
+
+    public static ItemStackWrapper itemHeld() {
+        ItemStackWrapper mainHandItem = mainHandItem();
+        if (mainHandItem != null) return mainHandItem;
+
+        ItemStackWrapper offHandItem = offHandItem();
+        if (offHandItem != null) return offHandItem;
+
+        return null;
+    }
+
     public static void displayMessage(String message, boolean actionBar) {
         final Player player = Minecraft.getInstance().player;
         if (player != null) {

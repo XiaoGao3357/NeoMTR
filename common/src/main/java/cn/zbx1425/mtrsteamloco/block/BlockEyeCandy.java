@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,7 +50,13 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
             }
             return InteractionResult.SUCCESS;
         } else {
-            return InteractionResult.PASS;
+            if (level.isClientSide) {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                    blockEntityEyeCandy.scriptContext.events().triggerOnBlockUse();
+                }
+            }
+            return InteractionResult.SUCCESS;
         }
     }
 
