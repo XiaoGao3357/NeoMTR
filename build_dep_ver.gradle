@@ -26,7 +26,7 @@ rootProject.ext.minecraft_version_int = minecraft_version.split("\\.")[0] +
 
 rootProject.ext.parchment_minecraft_version = "1.21"
 rootProject.ext.parchment_version = "2024.07.28"
-rootProject.ext.fabric_loader_version = "0.16.10"
+rootProject.ext.fabric_loader_version = "0.18.3"
 rootProject.ext.fabric_api_version = "0.115.3+1.21.1"
 rootProject.ext.mod_menu_version = "11.0.2"
 rootProject.ext.neoforge_version = "21.1.21"

@@ -9,8 +9,7 @@
   ],
   "client": [
     "RailAccessorMixin",
-    "TrainAccessorMixin",
-    "TrainRendererBaseMixin"
+    "TrainAccessorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
