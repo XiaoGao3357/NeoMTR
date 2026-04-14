@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(value = TrainServer.class, remap = false)
+@Mixin(TrainServer.class)
 public class TrainServerMixin {
     @ModifyArg(method = "handlePositions", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;inflate(D)Lnet/minecraft/world/phys/AABB;"))
     public double fixTrainUpdateDistance(double d) {

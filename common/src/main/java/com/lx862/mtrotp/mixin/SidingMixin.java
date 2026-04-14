@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(value = Siding.class, remap = false)
+@Mixin(Siding.class)
 public class SidingMixin {
     @Shadow private Level level;
 
