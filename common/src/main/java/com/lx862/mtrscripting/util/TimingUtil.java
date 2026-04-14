@@ -7,28 +7,32 @@ import com.lx862.mtrscripting.core.ScriptInstance;
 
 @SuppressWarnings("unused")
 public class TimingUtil {
-    private static double timeElapsedForScript = 0;
-    private static double frameDeltaForScript = 0;
+    private double timeElapsedForScript = 0;
+    private double frameDeltaForScript = 0;
 
-    public static void prepareForScript(ScriptInstance<?> scriptContext) {
+    public void prepareForScript(ScriptInstance<?> scriptContext) {
         timeElapsedForScript = RenderUtil.runningSeconds;
         frameDeltaForScript = timeElapsedForScript - scriptContext.lastExecuteTime;
         scriptContext.lastExecuteTime = timeElapsedForScript;
     }
 
-    public static double elapsed() {
+    public static double globalElapsed() {
+        return RenderUtil.runningSeconds;
+    }
+
+    public double elapsed() {
         return timeElapsedForScript;
     }
 
-    public static double delta() {
+    public double delta() {
         return frameDeltaForScript;
     }
 
-    public static long currentTimeMillis() {
+    public long currentTimeMillis() {
         return System.currentTimeMillis();
     }
 
-    public static long nanoTime() {
+    public long nanoTime() {
         return System.nanoTime();
     }
 }

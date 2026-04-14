@@ -1,6 +1,7 @@
 package com.lx862.jcm.mod.scripting.jcm.pids;
 
 import com.lx862.jcm.mod.block.entity.PIDSBlockEntity;
+import com.lx862.mtrscripting.util.Vector3dWrapper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mtr.client.ClientData;
 import mtr.data.RailwayData;
@@ -25,6 +26,10 @@ public class PIDSWrapper {
         this.height = height;
         this.rows = be.getRowAmount();
         this.arrivalsWrapper = new ArrivalsWrapper(arrivalsResponse);
+    }
+
+    public Vector3dWrapper blockPos() {
+        return new Vector3dWrapper(be.getBlockPos());
     }
 
     public boolean isRowHidden(int i) {

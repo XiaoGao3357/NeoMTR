@@ -40,7 +40,7 @@ public abstract class Horizontal2Block extends DirectionalBlock implements Horiz
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         boolean isLeft = IBlock.getStatePropertySafe(state, IS_LEFT);
-        if(!HorizontalDoubleBlockBehavior.blockIsValid(pos, state, world, isLeft)) return Blocks.AIR.defaultBlockState();
+        if(!HorizontalDoubleBlockBehavior.blockIsValid(pos, state, direction, world, isLeft)) return Blocks.AIR.defaultBlockState();
 
         return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
@@ -22,11 +23,16 @@ public class ParsedScript {
     private final List<Function> disposeFunctions;
     private final ScriptManager scriptManager;
     private final Scriptable scope;
+    private final TimingUtil timingUtil;
+    private final ExecutorService executorService;
+    private Exception capturedScriptException = null;
     private long lastFailedTime = -1;
 
     public ParsedScript(ScriptManager scriptManager, String displayName, String contextName, List<ScriptContent> scripts) throws Exception {
         this.displayName = displayName;
         this.scriptManager = scriptManager;
+        this.timingUtil = new TimingUtil();
+        this.executorService = scriptManager.getDesignatedScriptExecutor();
         this.createFunctions = new ArrayList<>();
         this.renderFunctions = new ArrayList<>();
         this.disposeFunctions = new ArrayList<>();
@@ -37,21 +43,7 @@ public class ParsedScript {
             cx.setClassShutter(scriptManager.getClassShutter());
             scope = new ImporterTopLevel(cx);
 
-            scope.put("include", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("includeScript", Object.class), "includeScript"));
-            scope.put("print", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("print", Object[].class), "print"));
-            scope.put("Resources", scope, new NativeJavaClass(scope, ScriptResourceUtil.class));
-            scope.put("GraphicsTexture", scope, new NativeJavaClass(scope, GraphicsTexture.class));
-
-            scope.put("Timing", scope, new NativeJavaClass(scope, TimingUtil.class));
-            scope.put("StateTracker", scope, new NativeJavaClass(scope, StateTracker.class));
-            scope.put("CycleTracker", scope, new NativeJavaClass(scope, CycleTracker.class));
-            scope.put("RateLimit", scope, new NativeJavaClass(scope, RateLimit.class));
-            scope.put("Networking", scope, new NativeJavaClass(scope, NetworkingUtil.class));
-            scope.put("Files", scope, new NativeJavaClass(scope, FilesUtil.class));
-
-            scope.put("Matrices", scope, new NativeJavaClass(scope, Matrices.class));
-
-            scope.put("MinecraftClient", scope, new NativeJavaClass(scope, MinecraftClientUtil.class));
+            initBasicContextVariables(scope);
 
             scriptManager.onParseScript(contextName, cx, scope);
 
@@ -81,6 +73,25 @@ public class ParsedScript {
         }
     }
 
+    private void initBasicContextVariables(Scriptable scope) throws NoSuchMethodException {
+        scope.put("include", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("includeScript", Object.class), "includeScript"));
+        scope.put("print", scope, new NativeJavaMethod(ScriptResourceUtil.class.getMethod("print", Object[].class), "print"));
+        scope.put("Resources", scope, new NativeJavaClass(scope, ScriptResourceUtil.class));
+        scope.put("GraphicsTexture", scope, new NativeJavaClass(scope, GraphicsTexture.class));
+
+        scope.put("Timing", scope, new NativeJavaObject(scope, timingUtil, TimingUtil.class));
+        scope.put("StateTracker", scope, new NativeJavaClass(scope, StateTracker.class));
+        scope.put("CycleTracker", scope, new NativeJavaClass(scope, CycleTracker.class));
+        scope.put("RateLimit", scope, new NativeJavaClass(scope, RateLimit.class));
+        scope.put("Networking", scope, new NativeJavaClass(scope, NetworkingUtil.class));
+        scope.put("Files", scope, new NativeJavaClass(scope, FilesUtil.class));
+
+        scope.put("Matrices", scope, new NativeJavaClass(scope, Matrices.class));
+        scope.put("Vector3f", scope, new NativeJavaClass(scope, Vector3dWrapper.class));
+        scope.put("VanillaText", scope, new NativeJavaClass(scope, VanillaTextWrapper.class));
+        scope.put("MinecraftClient", scope, new NativeJavaClass(scope, MinecraftClientUtil.class));
+    }
+
     private void tryAndAddFunction(String name, Scriptable scope, List<Function> listToAdd) {
         Object func = scope.get(name, scope);
         if(func != Scriptable.NOT_FOUND) {
@@ -96,10 +107,10 @@ public class ParsedScript {
             return null;
         }
 
-        return scriptManager.submitScriptTask(() -> {
+        return scriptManager.submitScriptTask(executorService, () -> {
             if(duringFailCooldown()) return;
 
-            TimingUtil.prepareForScript(scriptInstance);
+            timingUtil.prepareForScript(scriptInstance);
             try {
                 Scriptable scope = getScope();
                 Context cx = Context.enter();
@@ -115,6 +126,7 @@ public class ParsedScript {
             } catch (Exception e) {
                 ScriptManager.LOGGER.error("[Scripting] Error executing script {}!", displayName, e);
                 lastFailedTime = System.currentTimeMillis();
+                capturedScriptException = e;
             } finally {
                 Context.exit();
             }
@@ -122,8 +134,8 @@ public class ParsedScript {
         });
     }
 
-    public void invokeCreateFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
-        invokeFunctions(instance, createFunctions, () -> {
+    public Future<?> invokeCreateFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
+        return invokeFunctions(instance, createFunctions, () -> {
             instance.setCreateFunctionInvoked();
             finishCallback.run();
         });
@@ -133,7 +145,11 @@ public class ParsedScript {
         if(instance.shouldInvalidate() || instance.scriptTask != null && !instance.scriptTask.isDone()) {
             return;
         }
-        instance.scriptTask = invokeFunctions(instance, renderFunctions, finishCallback);
+        if(instance.isCreateFunctionInvoked()) {
+            instance.scriptTask = invokeFunctions(instance, renderFunctions, finishCallback);
+        } else {
+            instance.scriptTask = invokeCreateFunctions(instance, () -> {});
+        }
     }
 
     public Future<?> invokeDisposeFunctions(ScriptInstance<?> instance, Runnable finishCallback) {
@@ -145,6 +161,11 @@ public class ParsedScript {
      */
     public boolean duringFailCooldown() {
         return lastFailedTime != -1 && System.currentTimeMillis() - lastFailedTime <= SCRIPT_RESET_TIME;
+    }
+
+    /** Returns the exception occurred during the last failed script execution. Use in combination with {@link ParsedScript#duringFailCooldown()} to ensure the exception is still relevant. */
+    public Exception getCapturedScriptException() {
+        return capturedScriptException;
     }
 
     public String getDisplayName() {

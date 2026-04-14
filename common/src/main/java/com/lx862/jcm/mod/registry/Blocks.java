@@ -39,6 +39,7 @@ public final class Blocks {
     public static final RegistryObject<Block> HELPLINE_HKWK = new RegistryObject<>(() -> new WallAttachedHelpLineBlock(BlockBehaviour.Properties.of().strength(4.0f).noOcclusion()));
     public static final RegistryObject<Block> HELPLINE_STANDING = new RegistryObject<>(() -> new HelpLineStandingBlock(BlockBehaviour.Properties.of().lightLevel(state -> 15).strength(4.0f).noOcclusion()));
     public static final RegistryObject<Block> HELPLINE_STANDING_EAL = new RegistryObject<>(() -> new HelpLineStandingEALBlock(BlockBehaviour.Properties.of().lightLevel(state -> 15).strength(4.0f).noOcclusion()));
+    public static final RegistryObject<Block> HELPLINE_STANDING_TKL = new RegistryObject<>(() -> new HelpLineStandingTIKBlock(BlockBehaviour.Properties.of().lightLevel(state -> 15).strength(4.0f).noOcclusion()));
     public static final RegistryObject<Block> KCR_EMG_STOP_SIGN = new RegistryObject<>(() -> new KCREmergencyStopSign(BlockBehaviour.Properties.of().strength(4.0f).noOcclusion()));
     public static final RegistryObject<Block> KCR_ENQUIRY_MACHINE = new RegistryObject<>(() -> new KCREnquiryMachineWall(BlockBehaviour.Properties.of().lightLevel(state -> 4).strength(4.0f).noOcclusion()));
     public static final RegistryObject<Block> KCR_STATION_NAME_SIGN = new RegistryObject<>(() -> new KCRStationNameSignBlock(BlockBehaviour.Properties.of().lightLevel(state -> 15).strength(4.0f).noOcclusion(), false));
@@ -116,6 +117,7 @@ public final class Blocks {
         JCMRegistry.registerBlockAndItem("helpline_hkwk", HELPLINE_HKWK, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("helpline_standing", HELPLINE_STANDING, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("helpline_standing_eal", HELPLINE_STANDING_EAL, ItemGroups.MAIN);
+        JCMRegistry.registerBlockAndItem("helpline_standing_tkl", HELPLINE_STANDING_TKL, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("kcr_emg_stop_sign", KCR_EMG_STOP_SIGN, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("kcr_enquiry_machine", KCR_ENQUIRY_MACHINE, ItemGroups.MAIN);
         JCMRegistry.registerBlockAndItem("kcr_name_sign", KCR_STATION_NAME_SIGN, ItemGroups.MAIN);
@@ -199,6 +201,7 @@ public final class Blocks {
             HELPLINE_HKWK,
             HELPLINE_STANDING,
             HELPLINE_STANDING_EAL,
+            HELPLINE_STANDING_TKL,
             SIL_EMG_STOP_BUTTON,
             STATION_NAME_STANDING,
             TML_EMG_STOP_BUTTON,

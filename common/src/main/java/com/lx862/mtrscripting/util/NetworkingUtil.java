@@ -1,5 +1,6 @@
 package com.lx862.mtrscripting.util;
 
+import com.lx862.jcm.mod.JCMClient;
 import org.apache.commons.io.IOUtils;
 import com.lx862.mtrscripting.lib.org.mozilla.javascript.NativeObject;
 
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public class NetworkingUtil {
+    private static final int DEFAULT_CONNECT_TIMEOUT = 5000;
+    private static final int DEFAULT_READ_TIMEOUT = 10000;
     private static final String USER_AGENT_STRING = "Joban Client Mod (https://jcm.joban.org)";
 
     public static NetworkResponse<?> fetchString(String urlStr) throws IOException {
@@ -30,25 +33,36 @@ public class NetworkingUtil {
     public static NetworkResponse<?> fetchString(String urlStr, NativeObject requestObject) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+        urlConnection.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT);
+        urlConnection.setReadTimeout(DEFAULT_READ_TIMEOUT);
         processRequestObject(requestObject, urlConnection);
 
         try (InputStream is = urlConnection.getInputStream()) {
             String str = IOUtils.toString(is, StandardCharsets.UTF_8);
             return new NetworkResponse<>(str, urlConnection.getHeaderFields(), urlConnection.getResponseCode());
+        } catch (IOException e) {
+            return new NetworkResponse<>(null, null, -1, e);
         }
     }
 
     public static NetworkResponse<BufferedImage> fetchImage(String urlStr, NativeObject requestObject) throws IOException, URISyntaxException {
         URL url = new URI(urlStr).toURL();
         HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+        urlConnection.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT);
+        urlConnection.setReadTimeout(DEFAULT_READ_TIMEOUT);
         processRequestObject(requestObject, urlConnection);
         try(InputStream is = urlConnection.getInputStream()) {
             return new NetworkResponse<>(ImageIO.read(is), urlConnection.getHeaderFields(), urlConnection.getResponseCode());
+        } catch (IOException e) {
+            return new NetworkResponse<>(null, null, -1, e);
         }
     }
 
     private static void processRequestObject(NativeObject requestObject, HttpURLConnection connection) throws IOException {
         String body = null;
+
+        // Default UA
+        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
 
         if(requestObject != null) {
             if(requestObject.containsKey("method")) {
@@ -84,8 +98,10 @@ public class NetworkingUtil {
             }
         }
 
-        // Override User-Agent
-        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
+        // Preserve a user-supplied User-Agent when scripting restrictions are disabled.
+        if(!JCMClient.getConfig().disableScriptingRestriction) {
+            connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
+        }
 
         if(body != null) {
             byte[] bodyByte = body.getBytes();

@@ -114,6 +114,12 @@ public class EyeCandyRegistry {
         if (obj.has("scriptFiles")) {
             script = new ScriptHolder();
             Map<ResourceLocation, String> scripts = new Object2ObjectArrayMap<>();
+            if (obj.has("scriptInput")) {
+                scripts.put(
+                        ResourceLocation.fromNamespaceAndPath("mtrsteamloco", "script_input/block/" + key),
+                        "const SCRIPT_INPUT = " + obj.get("scriptInput") + ";"
+                );
+            }
             if (obj.has("scriptTexts")) {
                 JsonArray scriptTexts = obj.get("scriptTexts").getAsJsonArray();
                 for (int i = 0; i < scriptTexts.size(); i++) {

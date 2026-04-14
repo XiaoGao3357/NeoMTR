@@ -1,14 +1,19 @@
 package com.lx862.mtrscripting.util;
 
+import cn.zbx1425.mtrsteamloco.mixin.NativeImageAccessor;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.system.MemoryUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.Closeable;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
@@ -44,10 +49,16 @@ public class GraphicsTexture implements Closeable {
     }
 
     public void upload() {
-        for(int w = 0; w < width; w++) {
-            for(int h = 0; h < height; h++) {
-                dynamicTexture.getPixels().setPixelRGBA(w, h, toAbgr(bufferedImage.getRGB(w, h)));
-            }
+        int[] imgData = ((DataBufferInt) bufferedImage.getData().getDataBuffer()).getData();
+        IntBuffer imgBuffer = IntBuffer.wrap(imgData);
+        long nativeImagePointer = ((NativeImageAccessor) (Object) dynamicTexture.getPixels()).getPixels();
+        ByteBuffer target = MemoryUtil.memByteBuffer(nativeImagePointer, width * height * 4);
+        for (int i = 0; i < width * height; i++) {
+            int pixel = imgBuffer.get();
+            target.put((byte) ((pixel >> 16) & 0xFF));
+            target.put((byte) ((pixel >> 8) & 0xFF));
+            target.put((byte) (pixel & 0xFF));
+            target.put((byte) ((pixel >> 24) & 0xFF));
         }
         RenderSystem.recordRenderCall(dynamicTexture::upload);
     }

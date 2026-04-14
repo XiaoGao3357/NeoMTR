@@ -196,12 +196,22 @@ public class TextWrapper extends PIDSDrawCall {
     }
 
     private void drawMarqueeText(String str, PoseStack poseStack, MultiBufferSource bufferSource, int color, boolean shadow, int light) {
-        final MutableComponent text = getFormattedText(str);
-        int fullWidth = Minecraft.getInstance().font.width(text);
-        int cycleDuration = str.length() * 16;
-        double marqueeProgress = ((MTRClient.getGameTick() % cycleDuration) - (cycleDuration/2.0)) / (cycleDuration/2.0);
+        int[] textWidths = new int[str.length()];
+        /* textWidth accounts for the duration where the text starts to disappear by clipping to the left edge */
+        double textWidth = 0;
+        for(int i = 0; i < str.length(); i++) {
+            String st = String.valueOf(str.charAt(i));
+            final MutableComponent tx = getFormattedText(st);
+            textWidths[i] += Minecraft.getInstance().font.width(tx);
+            textWidth += textWidths[i];
+        }
 
-        double wSoFar = fullWidth * -marqueeProgress;
+        /* + w accounts for the duration where the text starts to appear from the right edge */
+        int fullWidth = (int)(textWidth + (int)w);
+        int cycleDuration = str.length() * 10;
+        double marqueeProgress = (MTRClient.getGameTick() % cycleDuration) / cycleDuration;
+
+        double wSoFar = w - (fullWidth * marqueeProgress);
         for(int i = 0; i < str.length(); i++) {
             String st = String.valueOf(str.charAt(i));
             final MutableComponent tx = getFormattedText(st);
@@ -213,7 +223,7 @@ public class TextWrapper extends PIDSDrawCall {
                 poseStack.popPose();
             }
 
-            wSoFar += Minecraft.getInstance().font.width(tx);
+            wSoFar += textWidths[i];
         }
     }
 

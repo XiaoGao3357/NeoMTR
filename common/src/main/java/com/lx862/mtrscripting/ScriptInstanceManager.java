@@ -20,7 +20,6 @@ public class ScriptInstanceManager {
         }
 
         ScriptInstance<T> newInstance = getInstance.get();
-        newInstance.getScript().invokeCreateFunctions(newInstance, () -> {});
         instances.put(id, newInstance);
         return newInstance;
     }

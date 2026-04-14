@@ -2,26 +2,34 @@ package cn.zbx1425.mtrsteamloco.block;
 
 import cn.zbx1425.mtrsteamloco.Main;
 import cn.zbx1425.mtrsteamloco.network.PacketScreen;
+import cn.zbx1425.mtrsteamloco.render.rail.RailRenderDispatcher;
 import cn.zbx1425.mtrsteamloco.render.scripting.eyecandy.EyeCandyScriptContext;
 import cn.zbx1425.sowcer.math.Vector3f;
+import mtr.block.IBlock;
 import mtr.mappings.BlockDirectionalMapper;
 import mtr.mappings.BlockEntityClientSerializableMapper;
 import mtr.mappings.BlockEntityMapper;
 import mtr.mappings.EntityBlockMapper;
 import mtr.registry.Items;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +50,34 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
     }
 
     @Override
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (!RailRenderDispatcher.isHoldingBrush) {
+            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+            if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                VoxelShape outlineShape = blockEntityEyeCandy.scriptContext.getOutlineShape();
+                if (outlineShape != null) {
+                    return outlineShape;
+                }
+            }
+        }
+        return super.getShape(state, blockGetter, pos, collisionContext);
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (!RailRenderDispatcher.isHoldingBrush) {
+            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+            if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                VoxelShape collisionShape = blockEntityEyeCandy.scriptContext.getCollisionShape();
+                if (collisionShape != null) {
+                    return collisionShape;
+                }
+            }
+        }
+        return Shapes.empty();
+    }
+
+    @Override
     public InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         if (player.getMainHandItem().is(Items.BRUSH.get())) {
             if (!level.isClientSide) {
@@ -49,7 +85,13 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
             }
             return InteractionResult.SUCCESS;
         } else {
-            return InteractionResult.PASS;
+            if (level.isClientSide) {
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (blockEntity instanceof BlockEntityEyeCandy blockEntityEyeCandy) {
+                    blockEntityEyeCandy.scriptContext.events().triggerOnBlockUse();
+                }
+            }
+            return InteractionResult.SUCCESS;
         }
     }
 
@@ -111,6 +153,23 @@ public class BlockEyeCandy extends BlockDirectionalMapper implements EntityBlock
 
         public Vector3f getWorldPosVector3f() {
             return new Vector3f(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ());
+        }
+
+        public Direction facing() {
+            return IBlock.getStatePropertySafe(this.getBlockState(), BlockEyeCandy.FACING);
+        }
+
+        public int redstoneLevel() {
+            Level level = getLevel();
+            if (level == null) {
+                return 0;
+            }
+            int highestRedstoneLevel = 0;
+
+            for (Direction direction : Direction.values()) {
+                highestRedstoneLevel = Math.max(highestRedstoneLevel, level.hasSignal(getBlockPos(), direction) ? 15 : 0);
+            }
+            return highestRedstoneLevel;
         }
     }
 }
